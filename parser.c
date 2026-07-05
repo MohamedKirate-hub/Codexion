@@ -6,19 +6,58 @@
 /*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:19 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/05 11:43:49 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/05 15:53:29 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
-int main(int ac, char **av)
+int number_validator(char *str)
 {
-    int i = 0;
-    if (ac != 8){
-        printf("pass only 8 arguments.\n");
-        return 1;
+    if (*str == '+' || *str == '-')
+        str++;
+
+    if (!*str)
+        return (0);
+
+    while (*str)
+    {
+        if (*str >= '0' && *str <= '9')
+            str++;
+        else
+            return (0);
     }
+    return (1);
     
-    return 0;
+}
+
+int string_validator(char *str)
+{
+    if (strcmp(str, "edf") == 0 || strcmp(str, "fifo") == 0)
+        return (1);
+    return (0);
+}
+
+t_args parser(int ac, char **av)
+{
+    t_args data;
+
+    if (number_validator(av[1]))
+        data.number_of_coders = ft_atoi(av[1]);
+    if (number_validator(av[2]))
+        data.time_to_burnout = ft_atoi(av[2]);
+    if (number_validator(av[3]))
+        data.time_to_compile = ft_atoi(av[3]);
+    if (number_validator(av[4]))
+        data.time_to_debug = ft_atoi(av[4]);
+    if (number_validator(av[5]))
+        data.time_to_refactor = ft_atoi(av[5]);
+    if (number_validator(av[6]))
+        data.number_of_compiles_required = ft_atoi(av[6]);
+    if (number_validator(av[7]))
+        data.dongle_cooldown = ft_atoi(av[7]);
+    if (string_validator(av[8]))
+        data.scheduler = av[8];
+
+    return (data);
 }
