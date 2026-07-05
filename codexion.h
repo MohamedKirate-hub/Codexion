@@ -6,7 +6,7 @@
 /*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/05 15:33:09 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/05 15:55:30 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,3 +28,4 @@ typedef struct s_args {
 } t_args;
 
 int ft_atoi(char *str);
+t_args parser(int ac, char **av);
