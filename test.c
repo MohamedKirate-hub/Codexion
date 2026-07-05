@@ -1,29 +1,31 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
+#include "codexion.h"
 
-int x = 2;
-
-void* thread_function()
+void *routine(void *args)
 {
-    int i = 0;
-    while (i < 100000)
-    {
-        i++;
-        x++;
-    }
-    return NULL;
+    int index = *(int *)args;
+    int res = index * index;
+    return (void *)(long)res;
 }
 
 int main()
 {
-    pthread_t t1, t2;
-    pthread_create(&t1, NULL, thread_function, NULL);
-    pthread_create(&t2, NULL, thread_function, NULL);
-
-    pthread_join(t1, NULL);
-    pthread_join(t2, NULL);
-    printf("the value of x is %d", x);
-    return 0;
+    pthread_t threads[3];
+    int i = 0;
+    while (i < 3)
+    {
+        int *index = malloc(sizeof(int));
+        *index = i;
+        pthread_create(&threads[i], NULL, routine, index);
+        i++;
+    }
+    i = 0;
+    while (i < 3)
+    {
+        void *res;
+        pthread_join(threads[i], &res);
+        printf("index thread %d return value %d\n", i, (int)(long)res);
+        i++;
+    }
+    
+    
 }
