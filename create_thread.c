@@ -1,28 +1,32 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <pthread.h>
+#include "codexion.h"
 
-void *thread_function(void *args){
-    int *number = args;
-    printf("The number it pass is: %d", *number);
-    return "Done";
+int x = 0;
+pthread_mutex_t mutex;
+
+void *routine()
+{
+    int i = 0;
+    while (i < 10000000)
+    {
+        pthread_mutex_lock(&mutex);
+        x++;
+        pthread_mutex_unlock(&mutex);
+        i++;
+    }
+    return NULL;
 }
 
 int main()
 {
-    pthread_t thread1;
-    void *thread_res;
-    int res;
+    pthread_t threads[2];
+    pthread_mutex_init(&mutex, NULL);
+    pthread_create(&threads[0], NULL, routine, NULL);
+    pthread_create(&threads[1], NULL, routine, NULL);
 
-    int number = 101;
-    res = pthread_create(&thread1, NULL, thread_function, &number);
-    if (res != 0)
-    {
-        perror("Creating thread is failed");
-        exit(EXIT_FAILURE);
-    }
+    pthread_join(threads[0], NULL);
+    pthread_join(threads[1], NULL);
 
-    pthread_join(thread1, &thread_res);
-    printf("\n%s\n", (char *)thread_res);
+    printf("x is %d.\n", x);
+    pthread_mutex_destroy(&mutex);
+    return 0;
 }
