@@ -4,6 +4,15 @@
 #include <pthread.h>
 #include <stdlib.h>
 
+# define NUMB 2
+
+typedef struct s_heap
+{
+    s_heap_node **data;
+    int capacity;
+    int count;
+} t_heap;
+
 typedef struct s_time_data
 {
     long time_to_burnout;
@@ -14,80 +23,47 @@ typedef struct s_time_data
     pthread_mutex_t mutex;
 } t_time_data;
 
-typedef struct s_data{
+typedef struct t_heap_node
+{
+    s_coder *coder;
+    long arrivale_time;
+    long deadline;
+} s_heap_node;
+
+typedef struct t_dongle
+{
+    pthread_mutex_t mutex;
+    int available;
+} s_dongle;
+
+typedef struct t_coder{
     int id;
+    long last_compile;
+
+    s_dongle left;
+    s_dongle right;
+    int left_taked;
+    int right_taked;
+
+    char* state;
     t_time_data *shared;
-} t_data;
 
-long current_time()
+    s_heap_node *data;
+} s_coder;
+
+
+int     main(void)
 {
-    struct timeval tv;
-    long sec_tv;
-    long usec_tv;
-
-    gettimeofday(&tv, NULL);
-    sec_tv = tv.tv_sec;
-    usec_tv = tv.tv_usec;
-    return (sec_tv*1000 + usec_tv/1000);
-}
-
-void print_status(t_data *data, char *msg)
-{
-    long elapsed;
-    int id;
-
-    pthread_mutex_lock(&data->shared->mutex);
-    elapsed = current_time() - data->shared->start_time;
-    id = data->id;
-    printf("%ld %d %s\n", elapsed, id, msg);
-    pthread_mutex_unlock(&data->shared->mutex);
-}
-
-void *worker(void *args)
-{
-    struct timeval start, end;
-    t_data *data = (t_data *)args;
-
-    print_status(data, "has taken a dongle");
-
-    print_status(data, "is compiling");
-    usleep(data->shared->time_to_compile * 1000);
-
-    print_status(data, "is debugging");
-    usleep(data->shared->time_to_debug * 1000);
-
-    print_status(data, "is refactoring");
-    usleep(data->shared->time_to_refactor * 1000);
-
-    return NULL;
-
+    int arr[6] = {9, 0, 8, 11, 22, 4};
+    heap_sorter(arr, 6);
+    for (int i = 0; i < 6; i++)
+        printf("%d\n", arr[i]);
+    return (0);
 }
 
 int main()
 {
-    pthread_t threads[2];
-    t_data data[2];
-    t_time_data shared_data;
-    int i = 0;
-
-    shared_data.time_to_burnout = 300;
-    shared_data.time_to_compile = 90;
-    shared_data.time_to_debug = 90;
-    shared_data.time_to_refactor = 90;
-
-    pthread_mutex_init(&shared_data.mutex, NULL);
-
-    shared_data.start_time = current_time();
-    while (i < 2)
-    {
-        data[i].id = i;
-        data[i].shared = &shared_data;
-        pthread_create(&threads[i], NULL, worker, &data[i]);
-        i++;
-    }
-    i = 0;
-    while (i < 2)
-        pthread_join(threads[i++], NULL);
-    pthread_mutex_destroy(&shared_data.mutex);
-    return (0);
+    pthread_t threads[NUMB];
+    s_dongle dongles[NUMB];
+    s_coder coders[NUMB];
 }
