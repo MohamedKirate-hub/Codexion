@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utlits.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/07/17 09:32:14 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/18 11:11:18 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,14 @@ long current_time()
     return (sec_tv*1000 + usec_tv/1000);
 }
 
-void print_state(s_coder *data, char *state)
+void print_state(t_coder *data, char *state)
 {
-    s_coder *args;
+    t_coder *coder;
     long spend_time;
 
-    args = (s_coder *)data;
-    spend_time = current_time() - args->args->start_time;
-    pthread_mutex_lock(&args->args->mutex);
-    printf("%ld %d %s\n", spend_time, args->id, state);
+    coder = (t_coder *)data;
+    spend_time = current_time() - coder->releast_time;
+    pthread_mutex_lock(&coder->args->mutex);
+    printf("%ld %d %s\n", spend_time, coder->id, state);
+    pthread_mutex_unlock(&coder->args->mutex);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/17 12:22:08 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/18 11:59:12 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 typedef struct s_heap_node
 {
     int id;
-    char *name;
     long release_time;
 } t_heap_node;
 
@@ -34,7 +33,16 @@ typedef struct s_heap
 
 // parse struct
 
-typedef struct t_args {
+// coder struct
+
+typedef struct s_dongle
+{
+    int             id;
+    int             available;
+    pthread_mutex_t mutex;
+} t_dongle;
+
+typedef struct s_args {
     int number_of_coders;
     int time_to_burnout;
     int time_to_compile;
@@ -43,24 +51,37 @@ typedef struct t_args {
     int number_of_compiles_required;
     int dongle_cooldown;
     char *scheduler;
-    
-    long start_time;
+
     pthread_mutex_t mutex;
-} s_args;
+    long start_time;
+} t_args;
 
-// coder struct
-typedef struct t_coder
-{
-    int id;
-    s_args *args;
-} s_coder;
+typedef struct s_coder{
+    int         id;
+    long        releast_time;
+    long        last_compile;
+    int         compile_count;
+    pthread_t   thread;
 
-typedef struct s_heap
+    t_dongle    left;
+    t_dongle    right;
+    int         left_taked;
+    int         right_taked;
+
+    t_args      *args;
+} t_coder;
+
+typedef struct s_sim
 {
-    int *data;
-    int capacity;
-    int count;
-} t_heap;
+    t_args *args;
+    t_coder *coders;
+    t_dongle *dongles;
+} t_sim;
 
 int ft_atoi(char *str);
-s_args parser(int ac, char **av);
+t_args parser(int ac, char **av);
+
+void heap_sorter(t_heap_node **arr, int capacity);
+
+long current_time();
+void print_state(t_coder *data, char *state);

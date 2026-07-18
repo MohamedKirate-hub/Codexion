@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   min_heap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 10:30:08 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/17 12:22:41 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/18 09:22:44 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void bubble_up(t_heap *heap, int size)
     i = size;
     while (i > 0)
     {
-        parent = i / 2;
+        parent = (i - 1) / 2;
         if (heap->data[parent]->release_time > heap->data[i]->release_time)
             swap(heap->data + parent, heap->data + i);
         else
@@ -118,39 +118,4 @@ void heap_sorter(t_heap_node **arr, int capacity)
     i = 0;
     while (i < capacity)
         arr[i++] = pop(heap);
-}
-
-int main()
-{
-    t_heap_node data[3];
-    t_heap_node *arr[3];
-    int i;
-
-    data[0].id = 1;
-    data[0].name = "ahmed";
-    data[0].release_time = 100;
-
-    data[1].id = 0;
-    data[1].name = "mohamed";
-    data[1].release_time = 10;
-
-    data[2].id = 2;
-    data[2].name = "ali";
-    data[2].release_time = 80;
-
-    arr[0] = &data[0];
-    arr[1] = &data[1];
-    arr[2] = &data[2];
-
-    heap_sorter(arr, 3);
-
-    i = 0;
-    while (i < 3)
-    {
-        printf("id: %d, name: %s, release_time: %ld\n",
-            arr[i]->id, arr[i]->name, arr[i]->release_time);
-        i++;
-    }
-
-    return (0);
 }

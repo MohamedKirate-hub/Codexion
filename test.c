@@ -51,16 +51,6 @@ typedef struct t_coder{
     s_heap_node *data;
 } s_coder;
 
-
-int     main(void)
-{
-    int arr[6] = {9, 0, 8, 11, 22, 4};
-    heap_sorter(arr, 6);
-    for (int i = 0; i < 6; i++)
-        printf("%d\n", arr[i]);
-    return (0);
-}
-
 int main()
 {
     pthread_t threads[NUMB];

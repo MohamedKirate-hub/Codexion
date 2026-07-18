@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:19 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/17 09:19:30 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/18 10:31:33 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int string_validator(char *str)
     return (0);
 }
 
-s_args parser(int ac, char **av)
+t_args parser(int ac, char **av)
 {
-    s_args data;
+    t_args data;
 
     if (number_validator(av[1]))
         data.number_of_coders = ft_atoi(av[1]);
