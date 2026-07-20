@@ -63,6 +63,7 @@ typedef struct s_sim
     t_args *args;
     t_coder *coders;
     t_dongle *dongles;
+    pthread_mutex_t sim_mutex;
 } t_sim;
 
 typedef struct s_heap

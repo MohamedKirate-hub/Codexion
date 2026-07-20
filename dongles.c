@@ -19,6 +19,58 @@ int sorting_methode(char *scheduler)
     return 3;
 }
 
+void take_dongles(t_sim *sim)
+{
+    int i;
+    int idx;
+
+    i = 0;
+    pthread_mutex_lock(&sim->sim_mutex);
+    while (i < sim->args->number_of_coders)
+    {
+        if (sim->coders[i].id % 2 && !sim->coders[i].left_taked)
+        {
+            idx = sim->coders[i].id % sim->args->number_of_coders;
+            if (sim->dongles[idx].available)
+                sim->dongles[idx].available = 0;
+        }
+        else
+        {
+            idx = sim->coders[i].id % sim->args->number_of_coders;
+            if (sim->dongles[idx - 1].available)
+            {
+                sim->dongles[idx - 1].available = 0;
+                sim->coders[i].left = sim->dongles[idx - 1];
+            }
+            else
+            {
+                if (sim->dongles[idx].available)
+                    sim->dongles[idx].available = 0;
+            }
+            if (sim->dongles[idx].available)
+            {
+                sim->dongles[idx].available = 0;
+                sim->coders[i].right = sim->dongles[idx];
+            }
+            else
+            {
+                if (sim->dongles[idx - 1].available)
+                    sim->dongles[idx - 1].available = 0;
+            }
+        }
+    }
+    pthread_mutex_unlock(&sim->sim_mutex);
+}
+
+int check_dongle(t_dongle dongle, long compile_time, long coldown)
+{
+    if (!dongle.available)
+        return 0;
+    if (dongle.available && current_time() - compile_time > coldown)
+        return 0;
+    return 1;
+}
+
 void setup_dongles(t_sim *sim, int capacity)
 {
     int i;
