@@ -78,6 +78,7 @@ void take_dongles(t_sim *sim)
                     sim->dongles[idx - 1].available = 0;
             }
         }
+        i++;
     }
     pthread_mutex_unlock(&sim->sim_mutex);
 }

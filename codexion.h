@@ -82,3 +82,4 @@ t_heap *create_heap(int capacity);
 
 long current_time();
 void print_state(t_coder *data, char *state);
+void usleep_function(long time);

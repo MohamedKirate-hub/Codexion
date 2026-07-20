@@ -35,3 +35,13 @@ void print_state(t_coder *data, char *state)
     printf("%ld %d %s\n", spend_time, coder->id, state);
     pthread_mutex_unlock(&coder->args->mutex);
 }
+
+void usleep_function(long time)
+{
+    long start;
+
+    // start = current_time();
+    // while (current_time() - start > time);
+    start = 
+    
+}
