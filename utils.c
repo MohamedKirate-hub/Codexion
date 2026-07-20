@@ -6,7 +6,7 @@
 /*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/07/18 11:11:18 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:49:40 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ void usleep_function(long time)
 {
     long start;
 
-    // start = current_time();
-    // while (current_time() - start > time);
-    start = 
-    
+    start = current_time();
+    while (current_time() - start)
+    {
+        usleep(time / 1000);
+        // if there are burn out break the raise error;
+    }
 }

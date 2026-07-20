@@ -6,7 +6,7 @@
 /*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/18 12:05:42 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/20 14:59:35 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void take_dongles(t_sim *sim)
             {
                 sim->dongles[idx].available = 0;
                 sim->coders[i].right = sim->dongles[idx];
+                print_state(&sim->coders[i], "has take a dongle");
             }
             else
             {
@@ -46,6 +47,7 @@ void take_dongles(t_sim *sim)
             {
                 sim->dongles[idx - 1].available = 0;
                 sim->coders[i].left = sim->dongles[idx - 1];
+                print_state(&sim->coders[i], "has take a dongle");
             }
             else
             {
@@ -60,6 +62,7 @@ void take_dongles(t_sim *sim)
             {
                 sim->dongles[idx - 1].available = 0;
                 sim->coders[i].left = sim->dongles[idx - 1];
+                print_state(&sim->coders[i], "has take a dongle");
             }
             else
             {
@@ -71,6 +74,7 @@ void take_dongles(t_sim *sim)
             {
                 sim->dongles[idx].available = 0;
                 sim->coders[i].right = sim->dongles[idx];
+                print_state(&sim->coders[i], "has take a dongle");
             }
             else
             {
@@ -85,8 +89,6 @@ void take_dongles(t_sim *sim)
 
 int check_dongle(t_dongle dongle, long compile_time, long coldown)
 {
-    if (!dongle.available)
-        return 0;
     if (dongle.available && current_time() - compile_time > coldown)
         return 0;
     return 1;
