@@ -47,6 +47,7 @@ void take_dongles(t_sim *sim)
                 if (sim->dongles[idx].available)
                     sim->dongles[idx].available = 0;
             }
+
             if (sim->dongles[idx].available)
             {
                 sim->dongles[idx].available = 0;
