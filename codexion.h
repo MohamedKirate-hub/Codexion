@@ -17,20 +17,6 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-// heap struct
-typedef struct s_heap_node
-{
-    int id;
-    long release_time;
-} t_heap_node;
-
-typedef struct s_heap
-{
-    t_heap_node **data;
-    int capacity;
-    int count;
-} t_heap;
-
 // parse struct
 
 // coder struct
@@ -39,6 +25,7 @@ typedef struct s_dongle
 {
     int             id;
     int             available;
+    t_heap          *heap;
     pthread_mutex_t mutex;
 } t_dongle;
 
@@ -78,10 +65,19 @@ typedef struct s_sim
     t_dongle *dongles;
 } t_sim;
 
+typedef struct s_heap
+{
+    t_coder **data;
+    int capacity;
+    int count;
+} t_heap;
+
 int ft_atoi(char *str);
 t_args parser(int ac, char **av);
 
-void heap_sorter(t_heap_node **arr, int capacity);
+void push(t_heap *heap, t_coder *coder, int method);
+t_coder *pop(t_heap *heap, int method);
+t_heap *create_heap(int capacity);
 
 long current_time();
 void print_state(t_coder *data, char *state);
