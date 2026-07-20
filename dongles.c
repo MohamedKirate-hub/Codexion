@@ -32,7 +32,26 @@ void take_dongles(t_sim *sim)
         {
             idx = sim->coders[i].id % sim->args->number_of_coders;
             if (sim->dongles[idx].available)
+            {
                 sim->dongles[idx].available = 0;
+                sim->coders[i].right = sim->dongles[idx];
+            }
+            else
+            {
+                if (sim->dongles[idx].available)
+                    sim->dongles[idx].available = 0;
+            }
+
+            if (sim->dongles[idx - 1].available)
+            {
+                sim->dongles[idx - 1].available = 0;
+                sim->coders[i].left = sim->dongles[idx - 1];
+            }
+            else
+            {
+                if (sim->dongles[idx].available)
+                    sim->dongles[idx].available = 0;
+            }
         }
         else
         {
