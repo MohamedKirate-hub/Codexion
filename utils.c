@@ -24,19 +24,19 @@ long current_time()
     return (sec_tv*1000 + usec_tv/1000);
 }
 
-void print_state(t_coder *data, char *state)
+void print_state(t_coder *data, char *state, pthread_mutex_t mutex)
 {
     t_coder *coder;
     long spend_time;
 
     coder = (t_coder *)data;
     spend_time = current_time() - coder->releast_time;
-    pthread_mutex_lock(&coder->args->mutex);
+    pthread_mutex_lock(&mutex);
     printf("%ld %d %s\n", spend_time, coder->id, state);
-    pthread_mutex_unlock(&coder->args->mutex);
+    pthread_mutex_unlock(&mutex);
 }
 
-void usleep_function(long time)
+void fn_usleep(long time)
 {
     long start;
 

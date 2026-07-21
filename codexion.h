@@ -50,10 +50,11 @@ typedef struct s_coder{
     int         compile_count;
     pthread_t   thread;
 
-    t_dongle    left;
-    t_dongle    right;
+    t_dongle    *left;
+    t_dongle    *right;
     int         left_taked;
     int         right_taked;
+    int         ids[2];
 
     t_args      *args;
 } t_coder;
@@ -73,6 +74,13 @@ typedef struct s_heap
     int count;
 } t_heap;
 
+typedef struct s_monitor
+{
+    t_coder     *coder;
+    pthread_t   monitor;
+    long        time_to_burnout;
+} t_monitor;
+
 int ft_atoi(char *str);
 t_args parser(int ac, char **av);
 
@@ -80,6 +88,20 @@ void push(t_heap *heap, t_coder *coder, int method);
 t_coder *pop(t_heap *heap, int method);
 t_heap *create_heap(int capacity);
 
+// utils
 long current_time();
-void print_state(t_coder *data, char *state);
-void usleep_function(long time);
+void print_state(t_coder *data, char *state, pthread_mutex_t mutex);
+void fn_usleep(long time);
+
+// dongles
+int take_dongle(t_coder *coder, t_sim *sim);
+void setup_dongles(t_sim *sim, int capacity);
+
+// coders
+int setup_coders(t_coder *coders, t_args *args);
+int join_coder(t_coder *coder);
+
+int request_dongles(t_coder *coder, t_sim *sim);
+
+
+
