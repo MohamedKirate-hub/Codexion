@@ -47,3 +47,40 @@ void fn_usleep(long time)
         // if there are burn out break the raise error;
     }
 }
+int sorting_methode(char *scheduler)
+{
+    if (strcmp(scheduler, "fifo") == 0)
+        return 2;
+    return 3;
+}
+
+void cleaner(t_coder *coder, t_sim *sim)
+{
+    int right_id;
+    int left_id;
+
+    left_id = coder->ids[0];
+    right_id = coder->ids[1];
+
+    sim->dongles[left_id].available = 1;
+    sim->dongles[right_id].available = 1;
+    coder->left_taked = 0;
+    coder->right_taked = 0;
+}
+
+void fill_heap(t_sim *sim)
+{
+    int         i;
+    int         left_id;
+    int         right_id;
+
+    i = 0;
+    while (i < sim->args->number_of_coders)
+    {
+        left_id = sim->coders[i].ids[0];
+        right_id = sim->coders[i].ids[1];
+        push(sim->dongles[left_id].heap, &sim->coders[i], sim->args->scheduler);
+        push(sim->dongles[right_id].heap, &sim->coders[i], sim->args->scheduler);
+        i++;
+    }
+}

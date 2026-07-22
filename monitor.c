@@ -1,6 +1,6 @@
 # include "codexion.h"
 
-void *monitor(void *args)
+void *monitoring(void *args)
 {
     long    spend_time;
     t_monitor *monitor;

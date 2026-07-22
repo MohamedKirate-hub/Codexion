@@ -12,21 +12,14 @@
 
 #include "codexion.h"
 
-int sorting_methode(char *scheduler)
-{
-    if (strcmp(scheduler, "fifo") == 0)
-        return 2;
-    return 3;
-}
-
 int check_dongle(t_dongle dongle, long compile_time, long coldown)
 {
     if (dongle.available && current_time() - compile_time > coldown)
-        return 0;
-    return 1;
+        return 1;
+    return 0;
 }
 
-int take_dongle(t_coder *coder, t_sim *sim)
+void take_dongle(t_coder *coder, t_sim *sim)
 {
     int left_id;
     int right_id;
@@ -53,7 +46,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 sim->dongles[left_id].available = 1;
                 coder->left_taked = 0;
             }
-            return (0);
         }
 
         if (coder->right_taked)
@@ -66,13 +58,11 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 coder->left = &sim->dongles[left_id];
                 coder->left_taked = 1;
                 print_state(coder, "has take a dongle", coder->left->mutex);
-                return (1);
             }
             else
             {
                 sim->dongles[left_id].available = 1;
                 coder->left_taked = 0;
-                return (0);
             }
         }
 

@@ -40,14 +40,16 @@ t_heap *create_heap(int capacity)
     return heap;
 }
 
-void bubble_down(t_heap *heap, int size, int method)
+void bubble_down(t_heap *heap, int size, char *scheduler)
 {
     int i;
     int left_child;
     int right_child;
     int small_child;
+    int method;
 
     i = size;
+    method = sorting_methode(scheduler);
     while ((i * 2 + 1) < heap->count)
     {
         left_child = i * 2 + 1;
@@ -78,12 +80,14 @@ void bubble_down(t_heap *heap, int size, int method)
     }
 }
 
-void bubble_up(t_heap *heap, int size, int method)
+void bubble_up(t_heap *heap, int size, char* scheduler)
 {
     int i;
     int parent;
+    int method;
 
     i = size;
+    method = sorting_methode(scheduler);
     while (i > 0)
     {
         parent = (i - 1) / 2;
@@ -105,16 +109,16 @@ void bubble_up(t_heap *heap, int size, int method)
     }
 }
 
-void push(t_heap *heap, t_coder *coder, int method)
+void push(t_heap *heap, t_coder *coder, char *scheduler)
 {
     if (heap->count == heap->capacity)
         return;
     heap->data[heap->count] = coder;
     heap->count++;
-    bubble_up(heap, heap->count-1, method);
+    bubble_up(heap, heap->count-1, scheduler);
 }
 
-t_coder *pop(t_heap *heap, int method)
+t_coder *pop(t_heap *heap, char* scheduler)
 {
     t_coder *coder;
     
@@ -124,7 +128,7 @@ t_coder *pop(t_heap *heap, int method)
     coder = heap->data[0];
     heap->data[0] = heap->data[heap->count-1];
     heap->count--;
-    bubble_down(heap, 0, method);
+    bubble_down(heap, 0, scheduler);
 
     return (coder);
 }
