@@ -12,7 +12,7 @@
 
 #include "codexion.h"
 
-int check_dongle(t_dongle dongle, long compile_time, long coldown)
+int check_dongle(t_dongle *dongle, long compile_time, long coldown)
 {
     if (dongle.available && current_time() - compile_time > coldown)
         return 1;
@@ -30,14 +30,14 @@ void take_dongle(t_coder *coder, t_sim *sim)
     pthread_mutex_lock(&sim->sim_mutex);
     if (coder->id % 2 == 0)
     {
-        if (check_dongle(sim->dongles[right_id],
+        if (check_dongle(&sim->dongles[right_id],
             coder->last_compile, sim->args->dongle_cooldown))
         {
             sim->dongles[right_id].available = 0;
             pop(sim->dongles[right_id].heap, sim->args->scheduler);
             coder->right = &sim->dongles[right_id];
             coder->right_taked = 1;
-            print_state(coder, "has take a dongle", coder->right->mutex);
+            print_state(coder, "has take a dongle");
         }
         else
         {
@@ -50,14 +50,14 @@ void take_dongle(t_coder *coder, t_sim *sim)
 
         if (coder->right_taked)
         {
-            if (check_dongle(sim->dongles[left_id],
+            if (check_dongle(&sim->dongles[left_id],
                 coder->last_compile, sim->args->dongle_cooldown))
             {
                 sim->dongles[left_id].available = 0;
                 pop(sim->dongles[left_id].heap, sim->args->scheduler);
                 coder->left = &sim->dongles[left_id];
                 coder->left_taked = 1;
-                print_state(coder, "has take a dongle", coder->left->mutex);
+                print_state(coder, "has take a dongle");
             }
             else
             {
@@ -69,14 +69,14 @@ void take_dongle(t_coder *coder, t_sim *sim)
     }
     else
     {
-        if (check_dongle(sim->dongles[left_id],
+        if (check_dongle(&sim->dongles[left_id],
             coder->last_compile, sim->args->dongle_cooldown))
         {
             sim->dongles[left_id].available = 0;
             pop(sim->dongles[left_id].heap, sim->args->scheduler);
             coder->left = &sim->dongles[left_id];
             coder->left_taked = 1;
-            print_state(coder, "has take a dongle", coder->left->mutex);
+            print_state(coder, "has take a dongle");
         }
         else
         {
@@ -89,14 +89,14 @@ void take_dongle(t_coder *coder, t_sim *sim)
 
         if (coder->left_taked)
         {
-            if (check_dongle(sim->dongles[right_id],
+            if (check_dongle(&sim->dongles[right_id],
                 coder->last_compile, sim->args->dongle_cooldown))
             {
                 sim->dongles[right_id].available = 0;
                 pop(sim->dongles[right_id].heap, sim->args->scheduler);
                 coder->right = &sim->dongles[right_id];
                 coder->right_taked = 1;
-                print_state(coder, "has take a dongle", coder->right->mutex);
+                print_state(coder, "has take a dongle");
             }
             else
             {

@@ -76,6 +76,7 @@ typedef struct s_sim
     t_coder         *coders;
     t_dongle        *dongles;
     pthread_mutex_t sim_mutex;
+    pthread_mutex_t print_mutex;
     int             running;
 } t_sim;
 
