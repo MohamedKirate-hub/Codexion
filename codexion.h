@@ -21,6 +21,8 @@ typedef struct s_heap    t_heap;
 typedef struct s_coder   t_coder;
 typedef struct s_dongle  t_dongle;
 typedef struct s_args    t_args;
+typedef struct s_sim     t_sim;
+
 
 typedef struct s_dongle
 {
@@ -43,6 +45,7 @@ typedef struct s_coder{
     int         right_taked;
     int         ids[2];
 
+    t_sim       *sim;
     t_args      *args;
 } t_coder;
 
@@ -97,14 +100,14 @@ void print_state(t_coder *data, char *state, pthread_mutex_t mutex);
 void fn_usleep(long time);
 int sorting_methode(char *scheduler);
 void cleaner(t_coder *coder, t_sim *sim);
-void fill_heap(t_sim *sim);
+void fill_heap(t_coder *coder);
 
 // dongles
 void take_dongle(t_coder *coder, t_sim *sim);
 void setup_dongles(t_sim *sim, int capacity);
 
 // coders
-int setup_coders(t_coder *coders, t_args *args);
+int setup_coders(t_sim *sim);
 int join_coder(t_coder *coder);
 
 int request_dongles(t_coder *coder, t_sim *sim);

@@ -42,7 +42,6 @@ void simulation(t_sim *sim)
             if (request_dongles(coder, sim))
             {
                 if (take_dongle(coder, sim))
-                {
                     join_coder(coder);
                     pthread_join(monitor->monitor, NULL);
                     cleaner(coder, sim);

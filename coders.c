@@ -4,6 +4,7 @@ void coder_compiling(t_coder *coder, pthread_mutex_t mutex)
 {
     coder->compile_count++;
     coder->last_compile = current_time();
+
     print_state(coder, "is compiling", mutex);
     usleep(coder->args->time_to_compile * 1000);
 
@@ -30,39 +31,46 @@ void *working(void *args)
 
     coder = (t_coder *)args;
     pthread_mutex_init(&mutex, NULL);
-    coder_compiling(coder, coder->left->mutex);
-    coder_debugging(coder, mutex);
-    coder_refactoring(coder, mutex);
+     if (request_dongles(coder, coder->sim))
+    {
+        take_dongle(coder, coder->sim);
+        coder_compiling(coder, coder->left->mutex);
+        coder_debugging(coder, mutex);
+        coder_refactoring(coder, mutex);
+        cleaner(coder, coder->sim);
+    }
 
     pthread_mutex_destroy(&mutex);
     return (NULL);
 }
 
-int setup_coders(t_coder *coders, t_args *args)
+int setup_coders(t_sim *sim)
 {
     int         i;
     int         state;
-    pthread_t   threads[args->number_of_coders];
-    args->start_time = current_time();
+    pthread_t   threads[sim->args->number_of_coders];
+    sim->args->start_time = current_time();
 
     i = 0;
-    while (i < args->number_of_coders)
+    while (i < sim->args->number_of_coders)
     {
-        coders[i].id = i+1;
-        coders[i].args = args;
-        coders[i].thread = threads[i];
-        coders[i].releast_time = current_time();
-        coders[i].compile_count = 0;
-        coders[i].last_compile =  0;
-        coders[i].ids[0] = i;
-        coders[i].ids[1] = (i + 1) % args->number_of_coders;
+        sim->coders[i].id = i+1;
+        sim->coders[i].args = sim->args;
+        sim->coders[i].sim = sim;
+        sim->coders[i].thread = threads[i];
+        sim->coders[i].releast_time = current_time();
+        sim->coders[i].compile_count = 0;
+        sim->coders[i].last_compile =  0;
+        sim->coders[i].ids[0] = i;
+        sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
+        fill_heap(&sim->coders[i]);
 
-        // state = pthread_create(&threads[i], NULL, working, &coders[i]);
-        // if (state)
-        // {
-        //     fprintf(stderr, "Error in creating thread,\n");
-        //     return (1);
-        // }
+        state = pthread_create(&threads[i], NULL, working, &sim->coders[i]);
+        if (state)
+        {
+            fprintf(stderr, "Error in creating thread,\n");
+            return (1);
+        }
         i++;
     }
     return (0);

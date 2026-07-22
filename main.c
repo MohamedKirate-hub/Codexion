@@ -20,23 +20,11 @@ int main(int ac, char **av)
     sim.running = 1;
 
     setup_dongles(&sim, args.number_of_coders);
-    status = setup_coders(sim.coders, sim.args);
+    status = setup_coders(&sim);
     if (status)
         return (1);
-    fill_heap(&sim);
 
-    if (request_dongles(&sim.coders[1], &sim))
-    {
-        take_dongle(&sim.coders[1], &sim);
-    }
-
-    printf("Left taked: %d.\n", sim.coders[1].left_taked);
-    if (sim.coders[1].left_taked)
-        printf("Left dongle id: %d.\n", sim.coders[1].left->id);
-    
-    printf("Right taked: %d.\n", sim.coders[1].right_taked);
-    if (sim.coders[1].right_taked)
-        printf("Right dongle id: %d.\n", sim.coders[1].right->id);
-
-    // simulation(&sim);
+    i = 0;
+    while (i < args.number_of_coders)
+        pthread_join(sim.coders[i++].thread, NULL);
 }

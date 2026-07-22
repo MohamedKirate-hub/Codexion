@@ -68,19 +68,13 @@ void cleaner(t_coder *coder, t_sim *sim)
     coder->right_taked = 0;
 }
 
-void fill_heap(t_sim *sim)
+void fill_heap(t_coder *coder)
 {
-    int         i;
     int         left_id;
     int         right_id;
 
-    i = 0;
-    while (i < sim->args->number_of_coders)
-    {
-        left_id = sim->coders[i].ids[0];
-        right_id = sim->coders[i].ids[1];
-        push(sim->dongles[left_id].heap, &sim->coders[i], sim->args->scheduler);
-        push(sim->dongles[right_id].heap, &sim->coders[i], sim->args->scheduler);
-        i++;
-    }
+    left_id = coder->ids[0];
+    right_id = coder->ids[1];
+    push(coder->sim->dongles[left_id].heap, coder, coder->sim->args->scheduler);
+    push(coder->sim->dongles[right_id].heap, coder, coder->sim->args->scheduler);
 }
