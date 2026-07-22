@@ -34,7 +34,7 @@ void take_dongle(t_coder *coder, t_sim *sim)
             coder->last_compile, sim->args->dongle_cooldown))
         {
             sim->dongles[right_id].available = 0;
-            push(sim->dongles[right_id].heap, coder, sim->args->scheduler);
+            pop(sim->dongles[right_id].heap, sim->args->scheduler);
             coder->right = &sim->dongles[right_id];
             coder->right_taked = 1;
             print_state(coder, "has take a dongle", coder->right->mutex);
@@ -54,7 +54,7 @@ void take_dongle(t_coder *coder, t_sim *sim)
                 coder->last_compile, sim->args->dongle_cooldown))
             {
                 sim->dongles[left_id].available = 0;
-                push(sim->dongles[left_id].heap, coder, sim->args->scheduler);
+                pop(sim->dongles[left_id].heap, sim->args->scheduler);
                 coder->left = &sim->dongles[left_id];
                 coder->left_taked = 1;
                 print_state(coder, "has take a dongle", coder->left->mutex);
@@ -73,7 +73,7 @@ void take_dongle(t_coder *coder, t_sim *sim)
             coder->last_compile, sim->args->dongle_cooldown))
         {
             sim->dongles[left_id].available = 0;
-            push(sim->dongles[left_id].heap, coder, sim->args->scheduler);
+            pop(sim->dongles[left_id].heap, sim->args->scheduler);
             coder->left = &sim->dongles[left_id];
             coder->left_taked = 1;
             print_state(coder, "has take a dongle", coder->left->mutex);
@@ -93,7 +93,7 @@ void take_dongle(t_coder *coder, t_sim *sim)
                 coder->last_compile, sim->args->dongle_cooldown))
             {
                 sim->dongles[right_id].available = 0;
-                push(sim->dongles[right_id].heap, coder, sim->args->scheduler);
+                pop(sim->dongles[right_id].heap, sim->args->scheduler);
                 coder->right = &sim->dongles[right_id];
                 coder->right_taked = 1;
                 print_state(coder, "has take a dongle", coder->right->mutex);
