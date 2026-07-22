@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/18 11:59:12 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/22 17:03:20 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_dongle
 {
     int             id;
     int             available;
+    long             releast_time;
     t_heap          *heap;
     pthread_mutex_t mutex;
 } t_dongle;
@@ -89,7 +90,7 @@ typedef struct s_monitor
 } t_monitor;
 
 int ft_atoi(char *str);
-t_args parser(int ac, char **av);
+t_args parser(char **av);
 
 void push(t_heap *heap, t_coder *coder, char* scheduler);
 t_coder *pop(t_heap *heap, char* scheduler);
@@ -97,7 +98,7 @@ t_heap *create_heap(int capacity);
 
 // utils
 long current_time();
-void print_state(t_coder *data, char *state, pthread_mutex_t mutex);
+void print_state(t_coder *data, char *state);
 void fn_usleep(long time);
 int sorting_methode(char *scheduler);
 void cleaner(t_coder *coder, t_sim *sim);

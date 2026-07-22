@@ -1,26 +1,26 @@
 #include "codexion.h"
 
-void coder_compiling(t_coder *coder, pthread_mutex_t mutex)
+void coder_compiling(t_coder *coder)
 {
     coder->compile_count++;
     coder->last_compile = current_time();
 
-    print_state(coder, "is compiling", mutex);
+    print_state(coder, "is compiling");
     usleep(coder->args->time_to_compile * 1000);
 
     push(coder->left->heap, coder, coder->args->scheduler);
     push(coder->right->heap, coder, coder->args->scheduler);
 }
 
-void coder_debugging(t_coder* coder, pthread_mutex_t mutex)
+void coder_debugging(t_coder* coder)
 {
-    print_state(coder, "is debugging", mutex);
+    print_state(coder, "is debugging");
     usleep(coder->args->time_to_debug * 1000);
 }
 
-void coder_refactoring(t_coder* coder, pthread_mutex_t mutex)
+void coder_refactoring(t_coder* coder)
 {
-    print_state(coder, "is refactoring", mutex);
+    print_state(coder, "is refactoring");
     usleep(coder->args->time_to_refactor * 1000);
 }
 
@@ -34,9 +34,9 @@ void *working(void *args)
      if (request_dongles(coder, coder->sim))
     {
         take_dongle(coder, coder->sim);
-        coder_compiling(coder, coder->left->mutex);
-        coder_debugging(coder, mutex);
-        coder_refactoring(coder, mutex);
+        coder_compiling(coder);
+        coder_debugging(coder);
+        coder_refactoring(coder);
         cleaner(coder, coder->sim);
     }
 

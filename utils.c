@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/07/20 14:49:40 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/22 16:53:28 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ void cleaner(t_coder *coder, t_sim *sim)
     sim->dongles[right_id].available = 1;
     coder->left_taked = 0;
     coder->right_taked = 0;
+
+
+    pthread_mutex_unlock(&coder->sim->dongles[left_id].mutex);
+    pthread_mutex_unlock(&coder->sim->dongles[right_id].mutex);
 }
 
 void fill_heap(t_coder *coder)

@@ -13,7 +13,7 @@ int main(int ac, char **av)
         return (1);
     }
 
-    args = parser(ac, av);
+    args = parser(av);
     sim.args = &args;
     sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
     sim.dongles = malloc(sizeof(t_dongle) * args.number_of_coders);

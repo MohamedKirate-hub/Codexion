@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:19 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/18 10:31:33 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/22 17:03:11 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int string_validator(char *str)
     return (0);
 }
 
-t_args parser(int ac, char **av)
+t_args parser(char **av)
 {
     t_args data;
 

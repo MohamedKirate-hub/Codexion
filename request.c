@@ -2,7 +2,6 @@
 
 int request_dongles(t_coder *coder, t_sim *sim)
 {
-    int i;
     int left_id;
     int right_id;
     t_dongle left_dongle;

@@ -5,14 +5,14 @@ CFLAGS = -Wall -Wextra -Werror
 RM = rm
 RMFLAGS = -rf
 SRCS = main.c ft_atoi.c request.c utils.c \
-	   coders.c dongles.c min_heap.c parser.c simulation.c \
-# 	   monitor.c
+	   coders.c dongles.c min_heap.c parser.c \
+# 	   monitor.c simulation.c
 OBJECTS = ${SRCS:.c=.o}
 
 all: ${NAME}
 
 ${NAME}: ${OBJECTS}
-	${CC} {CFLAGS} -o ${OBJECTS} ${NAME}
+	${CC} ${CFLAGS} -o ${NAME} ${OBJECTS}
 
 %.o: %.c ${HEADER}
 	${CC} ${CFLAGS} -c $< -o $@
