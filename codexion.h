@@ -107,7 +107,7 @@ void cleaner(t_coder *coder, t_sim *sim);
 void fill_heap(t_coder *coder);
 
 // dongles
-void take_dongle(t_coder *coder, t_sim *sim);
+int take_dongle(t_coder *coder, t_sim *sim);
 void setup_dongles(t_sim *sim, int capacity);
 
 // coders

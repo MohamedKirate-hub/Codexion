@@ -35,12 +35,13 @@ void *working(void *args)
     {
         if (request_dongles(coder, coder->sim))
         {
-            take_dongle(coder, coder->sim);
-            
-            coder_compiling(coder);
-            cleaner(coder, coder->sim);
-            coder_debugging(coder);
-            coder_refactoring(coder);
+            if (take_dongle(coder, coder->sim))
+            {
+                coder_compiling(coder);
+                cleaner(coder, coder->sim);
+                coder_debugging(coder);
+                coder_refactoring(coder);
+            }
         }
     }
 
@@ -63,7 +64,7 @@ int setup_coders(t_sim *sim)
         sim->coders[i].sim = sim;
         sim->coders[i].releast_time = current_time();
         sim->coders[i].compile_count = 0;
-        sim->coders[i].last_compile =  0;
+        sim->coders[i].last_compile =  sim->args->start_time;
         sim->coders[i].ids[0] = i;
         sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
         fill_heap(&sim->coders[i]);

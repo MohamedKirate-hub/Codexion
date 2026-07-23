@@ -15,16 +15,14 @@ int request_dongles(t_coder *coder, t_sim *sim)
 
     if (coder->id % 2 == 0)
     {
-        if (left_dongle.available && right_dongle.available &&
-            coder->id == left_dongle.heap->data[0]->id && coder->id == right_dongle.heap->data[0]->id)
+        if (left_dongle.available && coder->id == left_dongle.heap->data[0]->id)
             return (1);
         else
             return (0);
     }
     else
     {
-        if (right_dongle.available && right_dongle.available &&
-            coder->id == right_dongle.heap->data[0]->id && coder->id == left_dongle.heap->data[0]->id)
+        if (right_dongle.available && coder->id == right_dongle.heap->data[0]->id)
             return (1);
         else
             return (0);

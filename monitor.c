@@ -6,8 +6,8 @@ void *monitoring(void *args)
     int     i;
     long    time_to_burnout;
 
-    time_to_burnout = sim->args->time_to_burnout;
     sim = (t_sim *)args;
+    time_to_burnout = sim->args->time_to_burnout;
     while (sim->running)
     {
         i = 0;
@@ -31,7 +31,7 @@ void start_monitor(t_sim *sim)
 
     sim->running = 1;
     // pthread_mutex_init(&monitor.monitor_mutex, NULL);
-    status = pthread_create(&monitor.monitor, NULL, monitoring, &sim);
+    status = pthread_create(&monitor.monitor, NULL, monitoring, sim);
     if (status)
         return;
 }

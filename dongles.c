@@ -23,7 +23,7 @@ int check_dongle(t_dongle *dongle, long coldown)
     return (0);
 }
 
-void take_dongle(t_coder *coder, t_sim *sim)
+int take_dongle(t_coder *coder, t_sim *sim)
 {
     int left_id;
     int right_id;
@@ -41,14 +41,6 @@ void take_dongle(t_coder *coder, t_sim *sim)
             coder->right_taked = 1;
             print_state(coder, "has take a dongle");
         }
-        else
-        {
-            if (coder->left_taked)
-            {
-                sim->dongles[left_id].available = 1;
-                coder->left_taked = 0;
-            }
-        }
 
         if (coder->right_taked)
         {
@@ -64,6 +56,7 @@ void take_dongle(t_coder *coder, t_sim *sim)
             {
                 sim->dongles[right_id].available = 1;
                 coder->right_taked = 0;
+                pthread_mutex_unlock(&sim->dongles[right_id].mutex);
             }
         }
 
@@ -77,14 +70,6 @@ void take_dongle(t_coder *coder, t_sim *sim)
             coder->left = &sim->dongles[left_id];
             coder->left_taked = 1;
             print_state(coder, "has take a dongle");
-        }
-        else
-        {
-            if (coder->right_taked)
-            {
-                sim->dongles[right_id].available = 1;
-                coder->right_taked = 0;
-            }
         }
 
         if (coder->left_taked)
@@ -101,9 +86,11 @@ void take_dongle(t_coder *coder, t_sim *sim)
             {
                 sim->dongles[left_id].available = 1;
                 coder->left_taked = 0;
+                pthread_mutex_unlock(&sim->dongles[left_id].mutex);
             }
         }
     }
+    return (coder->right_taked == 1 && coder->left_taked == 1 ? 1 : 0);
 }
 
 void setup_dongles(t_sim *sim, int capacity)
