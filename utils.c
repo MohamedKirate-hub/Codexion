@@ -66,8 +66,6 @@ void cleaner(t_coder *coder, t_sim *sim)
     sim->dongles[right_id].available = 1;
     coder->left_taked = 0;
     coder->right_taked = 0;
-
-
     pthread_mutex_unlock(&coder->sim->dongles[left_id].mutex);
     pthread_mutex_unlock(&coder->sim->dongles[right_id].mutex);
 }

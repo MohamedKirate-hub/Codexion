@@ -53,6 +53,7 @@ typedef struct s_coder{
 typedef struct s_heap
 {
     t_coder **data;
+    pthread_mutex_t heap_mutex;
     int capacity;
     int count;
 } t_heap;
@@ -83,10 +84,11 @@ typedef struct s_sim
 
 typedef struct s_monitor
 {
-    t_coder     *coder;
-    pthread_t   monitor;
-    t_sim       *sim;
-    long        time_to_burnout;
+    t_coder         *coder;
+    pthread_t       monitor;
+    pthread_mutex_t monitor_mutex;
+    t_sim           *sim;
+    long            time_to_burnout;
 } t_monitor;
 
 int ft_atoi(char *str);
@@ -118,7 +120,7 @@ int request_dongles(t_coder *coder, t_sim *sim);
 void simulation(t_sim *sim);
 
 // monitor
-void *monitoring(void *args);
+void start_monitor(t_sim *sim);
 
 
 

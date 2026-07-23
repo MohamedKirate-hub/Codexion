@@ -4,9 +4,9 @@ void coder_compiling(t_coder *coder)
 {
     coder->compile_count++;
     coder->last_compile = current_time();
-
+    
     print_state(coder, "is compiling");
-    usleep(coder->args->time_to_compile * 1000);
+    // usleep(coder->sim->args->time_to_compile * 1000);
 
     push(coder->left->heap, coder, coder->args->scheduler);
     push(coder->right->heap, coder, coder->args->scheduler);
@@ -31,13 +31,17 @@ void *working(void *args)
 
     coder = (t_coder *)args;
     pthread_mutex_init(&mutex, NULL);
-     if (request_dongles(coder, coder->sim))
+    while (coder->sim->running)
     {
-        take_dongle(coder, coder->sim);
-        coder_compiling(coder);
-        coder_debugging(coder);
-        coder_refactoring(coder);
-        cleaner(coder, coder->sim);
+        if (request_dongles(coder, coder->sim))
+        {
+            take_dongle(coder, coder->sim);
+            
+            coder_compiling(coder);
+            cleaner(coder, coder->sim);
+            coder_debugging(coder);
+            coder_refactoring(coder);
+        }
     }
 
     pthread_mutex_destroy(&mutex);
@@ -57,22 +61,23 @@ int setup_coders(t_sim *sim)
         sim->coders[i].id = i+1;
         sim->coders[i].args = sim->args;
         sim->coders[i].sim = sim;
-        sim->coders[i].thread = threads[i];
         sim->coders[i].releast_time = current_time();
         sim->coders[i].compile_count = 0;
         sim->coders[i].last_compile =  0;
         sim->coders[i].ids[0] = i;
         sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
         fill_heap(&sim->coders[i]);
-
+        
         state = pthread_create(&threads[i], NULL, working, &sim->coders[i]);
         if (state)
         {
             fprintf(stderr, "Error in creating thread,\n");
             return (1);
         }
+        sim->coders[i].thread = threads[i];
         i++;
     }
+    start_monitor(sim);
     return (0);
 }
 

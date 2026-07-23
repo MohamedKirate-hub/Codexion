@@ -17,12 +17,10 @@ int check_dongle(t_dongle *dongle, long coldown)
     int valid;
 
     pthread_mutex_lock(&dongle->mutex);
-
-    valid = 0;
     if (dongle->available && current_time() - dongle->releast_time > coldown)
-        valid = 1;
+        return (1);
     pthread_mutex_unlock(&dongle->mutex);
-    return valid;
+    return (0);
 }
 
 void take_dongle(t_coder *coder, t_sim *sim)
@@ -121,7 +119,6 @@ void setup_dongles(t_sim *sim, int capacity)
         sim->dongles[i].available = 1;
 
         heap = create_heap(capacity);
-
         sim->dongles[i].heap = heap;
         i++;
     }
