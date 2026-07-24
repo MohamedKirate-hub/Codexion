@@ -42,7 +42,11 @@ void *working(void *args)
                     break;
                 cleaner(coder, coder->sim);
                 coder_debugging(coder);
+                if (!coder->sim->running)
+                    break;
                 coder_refactoring(coder);
+                if (!coder->sim->running)
+                    break;
             }
         }
     }

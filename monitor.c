@@ -28,7 +28,7 @@ void *monitoring(void *args)
         i = 0;
         while (i < sim->args->number_of_coders)
         {
-            if (current_time() - sim->coders[i].last_compile > time_to_burnout)
+            if (current_time() - sim->coders[i].last_compile >= time_to_burnout)
             {
                 print_state(&sim->coders[i], "burned out");
                 sim->running = 0;
