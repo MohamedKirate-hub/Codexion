@@ -3,10 +3,10 @@
 void coder_compiling(t_coder *coder)
 {
     coder->compile_count++;
-    coder->last_compile = current_time();
     
+    coder->last_compile = current_time();
     print_state(coder, "is compiling");
-    // usleep(coder->sim->args->time_to_compile * 1000);
+    usleep(coder->sim->args->time_to_compile * 1000);
 
     push(coder->left->heap, coder, coder->args->scheduler);
     push(coder->right->heap, coder, coder->args->scheduler);
@@ -38,6 +38,8 @@ void *working(void *args)
             if (take_dongle(coder, coder->sim))
             {
                 coder_compiling(coder);
+                if (!coder->sim->running)
+                    break;
                 cleaner(coder, coder->sim);
                 coder_debugging(coder);
                 coder_refactoring(coder);

@@ -22,6 +22,7 @@ typedef struct s_coder   t_coder;
 typedef struct s_dongle  t_dongle;
 typedef struct s_args    t_args;
 typedef struct s_sim     t_sim;
+typedef struct s_monitor    t_monitor;
 
 
 typedef struct s_dongle
@@ -77,6 +78,7 @@ typedef struct s_sim
     t_args          *args;
     t_coder         *coders;
     t_dongle        *dongles;
+    t_monitor       *monitor;
     pthread_mutex_t sim_mutex;
     pthread_mutex_t print_mutex;
     int             running;
