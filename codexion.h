@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/22 17:03:20 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/25 12:04:27 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ typedef struct s_dongle
 
 typedef struct s_coder{
     int         id;
-    long        releast_time;
+    long        arrived_time;
     long        last_compile;
     int         compile_count;
+    int         stop;
     pthread_t   thread;
 
     t_dongle    *left;

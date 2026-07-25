@@ -8,7 +8,9 @@ void coder_compiling(t_coder *coder)
     print_state(coder, "is compiling");
     usleep(coder->sim->args->time_to_compile * 1000);
 
+    coder->arrived_time = current_time();
     push(coder->left->heap, coder, coder->args->scheduler);
+    coder->arrived_time = current_time();
     push(coder->right->heap, coder, coder->args->scheduler);
 }
 
@@ -33,6 +35,9 @@ void *working(void *args)
     pthread_mutex_init(&mutex, NULL);
     while (coder->sim->running)
     {
+        if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
+            return (NULL);
+
         if (request_dongles(coder, coder->sim))
         {
             if (take_dongle(coder, coder->sim))
@@ -68,7 +73,6 @@ int setup_coders(t_sim *sim)
         sim->coders[i].id = i+1;
         sim->coders[i].args = sim->args;
         sim->coders[i].sim = sim;
-        sim->coders[i].releast_time = current_time();
         sim->coders[i].compile_count = 0;
         sim->coders[i].last_compile =  sim->args->start_time;
         sim->coders[i].ids[0] = i;
@@ -85,18 +89,5 @@ int setup_coders(t_sim *sim)
         i++;
     }
     start_monitor(sim);
-    return (0);
-}
-
-int join_coder(t_coder *coder)
-{
-    int state;
-
-    state = pthread_join(coder->thread, NULL);
-    if (state)
-    {
-        fprintf(stderr, "Error in joining thread,\n");
-        return (1);
-    }
     return (0);
 }

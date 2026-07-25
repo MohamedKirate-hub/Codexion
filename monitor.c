@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
+/*   Updated: 2026/07/25 12:07:00 by mkirate          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include "codexion.h"
 
 int reach_goal(t_sim *sim)
@@ -28,7 +40,8 @@ void *monitoring(void *args)
         i = 0;
         while (i < sim->args->number_of_coders)
         {
-            if (current_time() - sim->coders[i].last_compile >= time_to_burnout)
+            if (current_time() - sim->coders[i].last_compile >= time_to_burnout
+                && sim->coders[i].compile_count < sim->args->number_of_compiles_required)
             {
                 print_state(&sim->coders[i], "burned out");
                 sim->running = 0;

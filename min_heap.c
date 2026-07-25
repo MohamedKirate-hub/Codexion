@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   min_heap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 10:30:08 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/22 16:45:30 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/25 10:59:08 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void bubble_down(t_heap *heap, int size, char *scheduler)
         if (method == 2)
         {
             if (right_child < heap->count &&
-                heap->data[left_child]->releast_time > heap->data[right_child] ->releast_time )
+                heap->data[left_child]->arrived_time > heap->data[right_child] ->arrived_time )
                 small_child = right_child;
-            if (heap->data[small_child]->releast_time < heap->data[i]->releast_time )
+            if (heap->data[small_child]->arrived_time < heap->data[i]->arrived_time )
                 swap(heap->data + small_child, heap->data + i);
             else
                 break;
@@ -94,14 +94,14 @@ void bubble_up(t_heap *heap, int size, char* scheduler)
         parent = (i - 1) / 2;
         if (method == 2)
         {
-            if (heap->data[parent]->releast_time  > heap->data[i]->releast_time )
+            if (heap->data[parent]->arrived_time  > heap->data[i]->arrived_time )
                 swap(heap->data + parent, heap->data + i);
             else
                 break;
         }
         else
         {
-            if (heap->data[parent]->releast_time  > heap->data[i]->releast_time )
+            if (heap->data[parent]->arrived_time  > heap->data[i]->arrived_time )
                 swap(heap->data + parent, heap->data + i);
             else
                 break;
