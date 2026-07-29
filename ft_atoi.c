@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:35:06 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/05 11:35:15 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:41:53 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int ft_atoi(char *str)
 {
     int sign;
-    int res;
+    long tmp;
+    long res;
     int i;
 
     i = 0;
@@ -31,8 +32,14 @@ int ft_atoi(char *str)
 
     while  (str[i] && (str[i] >= '0' && str[i] <= '9'))
     {
+        tmp = res;
         res = res * 10 + (str[i] - 48);
+        if (tmp > res)
+        {
+            write(2, "Error: integer overflow.\n", 26);
+            exit(2);
+        }
         i++;
     }
-    return res * sign;
+    return (int)(res * sign);
 }

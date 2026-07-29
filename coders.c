@@ -75,6 +75,8 @@ int setup_coders(t_sim *sim)
         sim->coders[i].sim = sim;
         sim->coders[i].compile_count = 0;
         sim->coders[i].last_compile =  sim->args->start_time;
+        sim->coders[i].arrived_time = 0;
+        sim->coders[i].ids = malloc(sizeof(int) * 2);
         sim->coders[i].ids[0] = i;
         sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
         fill_heap(&sim->coders[i]);

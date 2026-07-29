@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/07/22 16:53:28 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/29 19:20:19 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void print_state(t_coder *data, char *state)
     long spend_time;
 
     coder = (t_coder *)data;
-    spend_time = current_time() - coder->releast_time;
+    spend_time = current_time() - coder->args->start_time;
     pthread_mutex_lock(&coder->sim->print_mutex);
     printf("%ld %d %s\n", spend_time, coder->id, state);
     pthread_mutex_unlock(&coder->sim->print_mutex);

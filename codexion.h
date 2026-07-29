@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   codexion.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/25 12:04:27 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/07/29 19:23:52 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_coder{
     t_dongle    *right;
     int         left_taked;
     int         right_taked;
-    int         ids[2];
+    int         *ids;
 
     t_sim       *sim;
     t_args      *args;
@@ -115,12 +115,8 @@ void setup_dongles(t_sim *sim, int capacity);
 
 // coders
 int setup_coders(t_sim *sim);
-int join_coder(t_coder *coder);
 
 int request_dongles(t_coder *coder, t_sim *sim);
-
-// simulation
-void simulation(t_sim *sim);
 
 // monitor
 void start_monitor(t_sim *sim);
