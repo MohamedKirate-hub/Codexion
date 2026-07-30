@@ -43,7 +43,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
             pop(sim->dongles[right_id].heap, sim->args->scheduler);
             coder->right = &sim->dongles[right_id];
             coder->right_taked = 1;
-            print_state(coder, "has take a dongle");
             pthread_mutex_unlock(&sim->dongles[right_id].mutex);
         }
 
@@ -56,6 +55,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 pop(sim->dongles[left_id].heap, sim->args->scheduler);
                 coder->left = &sim->dongles[left_id];
                 coder->left_taked = 1;
+                print_state(coder, "has take a dongle");
                 print_state(coder, "has take a dongle");
                 pthread_mutex_unlock(&sim->dongles[left_id].mutex);
             }
@@ -76,7 +76,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
             pop(sim->dongles[left_id].heap, sim->args->scheduler);
             coder->left = &sim->dongles[left_id];
             coder->left_taked = 1;
-            print_state(coder, "has take a dongle");
             pthread_mutex_unlock(&sim->dongles[left_id].mutex);
         }
 
@@ -89,6 +88,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 pop(sim->dongles[right_id].heap, sim->args->scheduler);
                 coder->right = &sim->dongles[right_id];
                 coder->right_taked = 1;
+                print_state(coder, "has take a dongle");
                 print_state(coder, "has take a dongle");
                 pthread_mutex_unlock(&sim->dongles[right_id].mutex);
             }
@@ -108,11 +108,11 @@ void setup_dongles(t_sim *sim, int capacity)
     t_heap *heap;
 
     i = 0;
-    heap = create_heap(capacity);
     while (i < capacity)
     {
         sim->dongles[i].id = i;
         sim->dongles[i].available = 1;
+        sim->dongles[i].releast_time = 0;
 
         heap = create_heap(capacity);
         sim->dongles[i].heap = heap;

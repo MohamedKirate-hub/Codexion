@@ -29,10 +29,8 @@ void coder_refactoring(t_coder* coder)
 void *working(void *args)
 {
     t_coder *coder;
-    pthread_mutex_t mutex;
 
     coder = (t_coder *)args;
-    pthread_mutex_init(&mutex, NULL);
     while (coder->sim->running)
     {
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
@@ -55,8 +53,6 @@ void *working(void *args)
             }
         }
     }
-
-    pthread_mutex_destroy(&mutex);
     return (NULL);
 }
 
@@ -80,12 +76,12 @@ int setup_coders(t_sim *sim)
         sim->coders[i].ids[0] = i;
         sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
         fill_heap(&sim->coders[i]);
-        
+
         state = pthread_create(&threads[i], NULL, working, &sim->coders[i]);
         if (state)
         {
             fprintf(stderr, "Error in creating thread,\n");
-            return (1);
+            exit(1);
         }
         sim->coders[i].thread = threads[i];
         i++;

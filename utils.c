@@ -63,7 +63,9 @@ void cleaner(t_coder *coder, t_sim *sim)
     right_id = coder->ids[1];
 
     sim->dongles[left_id].available = 1;
+    sim->dongles[left_id].releast_time = current_time();
     sim->dongles[right_id].available = 1;
+    sim->dongles[right_id].releast_time = current_time();
     coder->left_taked = 0;
     coder->right_taked = 0;
     pthread_mutex_unlock(&coder->sim->dongles[left_id].mutex);

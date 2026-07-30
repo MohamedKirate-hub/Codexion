@@ -17,6 +17,8 @@ int main(int ac, char **av)
     sim.args = &args;
     sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
     sim.dongles = malloc(sizeof(t_dongle) * args.number_of_coders);
+    if (!sim.dongles)
+    
     sim.running = 1;
 
     setup_dongles(&sim, args.number_of_coders);
