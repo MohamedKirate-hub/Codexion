@@ -6,17 +6,29 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:35:06 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/29 19:41:53 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/31 15:01:55 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
 
+void is_overflow(int digit, int res, int sign)
+{
+    long int_max = 0;
+    long int_min = 0;
+    if (sign == 1 && (res > INT_MAX / 10
+		|| (res == INT_MAX / 10 && digit > 7)))
+    {
+        printf("int max overflow.\n");
+        exit(1);
+    }
+}
+
 int ft_atoi(char *str)
 {
     int sign;
-    long tmp;
-    long res;
+    int digit;
+    int res;
     int i;
 
     i = 0;
@@ -32,13 +44,9 @@ int ft_atoi(char *str)
 
     while  (str[i] && (str[i] >= '0' && str[i] <= '9'))
     {
-        tmp = res;
-        res = res * 10 + (str[i] - 48);
-        if (tmp > res)
-        {
-            write(2, "Error: integer overflow.\n", 26);
-            exit(2);
-        }
+        digit = str[i] - 48;
+        is_overflow(digit, res, sign);
+        res = res * 10 + digit;
         i++;
     }
     return (int)(res * sign);

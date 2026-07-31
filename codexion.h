@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/29 19:23:52 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/07/31 15:01:48 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/time.h>
+
+# define INT_MAX 2147483647
 
 typedef struct s_heap    t_heap;
 typedef struct s_coder   t_coder;
