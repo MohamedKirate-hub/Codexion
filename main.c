@@ -16,8 +16,17 @@ int main(int ac, char **av)
     args = parser(av);
     sim.args = &args;
     sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
+    if (!sim.coders)
+    {
+        fprintf(stderr, "Error: failed to allocate memory for coders creation.\n");
+        exit(1);
+    }
     sim.dongles = malloc(sizeof(t_dongle) * args.number_of_coders);
     if (!sim.dongles)
+    {
+        fprintf(stderr, "Error: failed to allocate memory for Dongles creation.\n");
+        exit(1);
+    }
     
     sim.running = 1;
 

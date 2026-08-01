@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/31 15:01:48 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/01 18:48:24 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_args {
     char *scheduler;
 
     pthread_mutex_t mutex;
+    pthread_cond_t  cond;
     long start_time;
 } t_args;
 
