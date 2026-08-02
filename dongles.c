@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dongles.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/25 10:10:56 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/08/02 11:22:06 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ void setup_dongles(t_sim *sim, int capacity)
 
         heap = create_heap(capacity);
         sim->dongles[i].heap = heap;
+        if (!sim->dongles[i].heap)
+        {
+            while (i > 0)
+                free(sim->dongles[--i].heap);
+            return;
+        }
         i++;
     }
 }
