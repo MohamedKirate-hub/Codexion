@@ -7,7 +7,6 @@ int request_dongles(t_coder *coder, t_sim *sim)
     t_dongle left_dongle;
     t_dongle right_dongle;
 
-    // pthread_mutex_lock(&sim->sim_mutex);
     left_id = coder->ids[0];
     right_id = coder->ids[1];
     left_dongle = sim->dongles[left_id];

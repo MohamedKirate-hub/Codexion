@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/01 18:48:24 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/02 11:39:28 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_args {
     char *scheduler;
 
     pthread_mutex_t mutex;
-    pthread_cond_t  cond;
     long start_time;
 } t_args;
 
@@ -85,7 +84,9 @@ typedef struct s_sim
     t_monitor       *monitor;
     pthread_mutex_t sim_mutex;
     pthread_mutex_t print_mutex;
+    pthread_cond_t  cond;
     int             running;
+    int             created_coders;
 } t_sim;
 
 typedef struct s_monitor

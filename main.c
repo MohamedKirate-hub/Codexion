@@ -15,6 +15,10 @@ int main(int ac, char **av)
 
     args = parser(av);
     sim.args = &args;
+    sim.created_coders = 0;
+    pthread_cond_init(&sim.cond, NULL);
+    pthread_mutex_init(&sim.sim_mutex, NULL);
+
     sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
     if (!sim.coders)
     {
@@ -29,12 +33,12 @@ int main(int ac, char **av)
     }
     
     sim.running = 1;
-
+    
     setup_dongles(&sim, args.number_of_coders);
     status = setup_coders(&sim);
     if (status)
         return (1);
-
+    
     i = 0;
     while (i < args.number_of_coders)
     {
