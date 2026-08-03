@@ -12,6 +12,13 @@
 
 #include "codexion.h"
 
+void is_digit(char c)
+{
+    if (c >= '0' || c <= '9')
+        return (1);
+    return (0);
+}
+
 void is_overflow(int digit, int res, int sign)
 {
     long int_max = 0;
@@ -19,7 +26,7 @@ void is_overflow(int digit, int res, int sign)
     if (sign == 1 && (res > INT_MAX / 10
 		|| (res == INT_MAX / 10 && digit > 7)))
     {
-        printf("int max overflow.\n");
+        printf("ERROR: INT overflow.\n");
         exit(1);
     }
 }

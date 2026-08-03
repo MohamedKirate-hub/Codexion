@@ -33,9 +33,6 @@ void *working(void *args)
     coder = (t_coder *)args;
     pthread_mutex_lock(&coder->sim->sim_mutex);
     coder->sim->created_coders++;
-    printf("coder created: %d and wanted: %d\n",
-       coder->sim->created_coders,
-       coder->sim->args->number_of_coders);
     if (coder->sim->created_coders == coder->sim->args->number_of_coders)
         pthread_cond_broadcast(&coder->sim->cond);
     while (coder->sim->created_coders != coder->sim->args->number_of_coders)
@@ -49,7 +46,6 @@ void *working(void *args)
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
             return (NULL);
 
-        printf("Coder %d requesting dongles\n", coder->id);
         if (request_dongles(coder, coder->sim))
         {
             if (take_dongle(coder, coder->sim))
