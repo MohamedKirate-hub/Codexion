@@ -44,6 +44,8 @@ void *working(void *args)
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
             return (NULL);
 
+        if (!coder->sim->running)
+            break;
         if (request_dongles(coder, coder->sim))
         {
             if (take_dongle(coder, coder->sim))
