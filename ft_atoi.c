@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/05 11:35:06 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/31 15:01:55 by mkirat           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "codexion.h"
 
-void is_digit(char c)
+int is_digit(char c)
 {
-    if (c >= '0' || c <= '9')
+    if (c >= '0' && c <= '9')
         return (1);
     return (0);
 }
@@ -49,12 +37,17 @@ int ft_atoi(char *str)
         i++;
     }
 
-    while  (str[i] && (str[i] >= '0' && str[i] <= '9'))
+    while (str[i])
     {
+        if (!is_digit(str[i]))
+        {
+            printf("ERROR: please enter number.\n");
+            exit(1);
+        }
         digit = str[i] - 48;
         is_overflow(digit, res, sign);
         res = res * 10 + digit;
         i++;
     }
-    return (int)(res * sign);
+    return (res * sign);
 }

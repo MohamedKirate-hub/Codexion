@@ -36,17 +36,6 @@ void print_state(t_coder *data, char *state)
     pthread_mutex_unlock(&coder->sim->print_mutex);
 }
 
-void fn_usleep(long time)
-{
-    long start;
-
-    start = current_time();
-    while (current_time() - start)
-    {
-        usleep(time / 1000);
-        // if there are burn out break the raise error;
-    }
-}
 int sorting_methode(char *scheduler)
 {
     if (strcmp(scheduler, "fifo") == 0)

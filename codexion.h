@@ -31,7 +31,7 @@ typedef struct s_dongle
 {
     int             id;
     int             available;
-    long             releast_time;
+    long            releast_time;
     t_heap          *heap;
     pthread_mutex_t mutex;
 } t_dongle;

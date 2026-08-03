@@ -101,7 +101,7 @@ void bubble_up(t_heap *heap, int size, char* scheduler)
         }
         else
         {
-            if (heap->data[parent]->arrived_time  > heap->data[i]->arrived_time )
+            if (heap->data[parent]->last_compile  > heap->data[i]->last_compile )
                 swap(heap->data + parent, heap->data + i);
             else
                 break;

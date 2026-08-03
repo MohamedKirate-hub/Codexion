@@ -33,8 +33,6 @@ void *working(void *args)
     coder = (t_coder *)args;
     pthread_mutex_lock(&coder->sim->sim_mutex);
     coder->sim->created_coders++;
-    if (coder->sim->created_coders == coder->sim->args->number_of_coders)
-        pthread_cond_broadcast(&coder->sim->cond);
     while (coder->sim->created_coders != coder->sim->args->number_of_coders)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
@@ -50,16 +48,16 @@ void *working(void *args)
         {
             if (take_dongle(coder, coder->sim))
             {
-                coder_compiling(coder);
                 if (!coder->sim->running)
                     break;
+                coder_compiling(coder);
                 cleaner(coder, coder->sim);
+                if (!coder->sim->running)
+                    break;
                 coder_debugging(coder);
                 if (!coder->sim->running)
                     break;
                 coder_refactoring(coder);
-                if (!coder->sim->running)
-                    break;
             }
         }
     }

@@ -42,20 +42,13 @@ t_args parser(char **av)
 {
     t_args data;
 
-    if (number_validator(av[1]))
-        data.number_of_coders = ft_atoi(av[1]);
-    if (number_validator(av[2]))
-        data.time_to_burnout = ft_atoi(av[2]);
-    if (number_validator(av[3]))
-        data.time_to_compile = ft_atoi(av[3]);
-    if (number_validator(av[4]))
-        data.time_to_debug = ft_atoi(av[4]);
-    if (number_validator(av[5]))
-        data.time_to_refactor = ft_atoi(av[5]);
-    if (number_validator(av[6]))
-        data.number_of_compiles_required = ft_atoi(av[6]);
-    if (number_validator(av[7]))
-        data.dongle_cooldown = ft_atoi(av[7]);
+    data.number_of_coders = ft_atoi(av[1]);
+    data.time_to_burnout = ft_atoi(av[2]);
+    data.time_to_compile = ft_atoi(av[3]);
+    data.time_to_debug = ft_atoi(av[4]);
+    data.time_to_refactor = ft_atoi(av[5]);
+    data.number_of_compiles_required = ft_atoi(av[6]);
+    data.dongle_cooldown = ft_atoi(av[7]);
     if (string_validator(av[8]))
         data.scheduler = av[8];
 

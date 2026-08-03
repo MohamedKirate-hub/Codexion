@@ -34,6 +34,11 @@ void *monitoring(void *args)
 
     sim = (t_sim *)args;
     time_to_burnout = sim->args->time_to_burnout;
+    
+    pthread_mutex_lock(&sim->monitor->monitor_mutex);
+    if (sim->created_coders == sim->args->number_of_coders)
+        pthread_cond_broadcast(&sim->cond);
+    pthread_mutex_unlock(&sim->monitor->monitor_mutex);
     pthread_mutex_lock(&sim->monitor->monitor_mutex);
     while (sim->running)
     {
