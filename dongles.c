@@ -40,7 +40,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
         {
             pthread_mutex_lock(&sim->dongles[right_id].mutex);
             sim->dongles[right_id].available = 0;
-            pop(sim->dongles[right_id].heap, sim->args->scheduler);
+            // pop(sim->dongles[right_id].heap, sim->args->scheduler);
             coder->right = &sim->dongles[right_id];
             coder->right_taked = 1;
             pthread_mutex_unlock(&sim->dongles[right_id].mutex);
@@ -53,6 +53,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 pthread_mutex_lock(&sim->dongles[left_id].mutex);
                 sim->dongles[left_id].available = 0;
                 pop(sim->dongles[left_id].heap, sim->args->scheduler);
+                pop(sim->dongles[right_id].heap, sim->args->scheduler);
                 coder->left = &sim->dongles[left_id];
                 coder->left_taked = 1;
                 print_state(coder, "has take a dongle");

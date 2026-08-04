@@ -1,7 +1,7 @@
 HEADER=codexion.h
 NAME=codexion
 CC = cc
-CFLAGS = #-fsanitize=address -g3
+CFLAGS = -g3
 RM = rm
 RMFLAGS = -rf
 SRCS = main.c ft_atoi.c request.c utils.c \

@@ -33,13 +33,14 @@ int main(int ac, char **av)
         exit(1);
     }
     
-    sim.running = 1;
+    sim.running = 0;
+    sim.begin = 0;
     
     setup_dongles(&sim, args.number_of_coders);
     status = setup_coders(&sim);
     if (status)
         return (1);
-    
+
     i = 0;
     while (i < args.number_of_coders)
     {

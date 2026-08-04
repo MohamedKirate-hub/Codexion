@@ -87,6 +87,7 @@ typedef struct s_sim
     pthread_mutex_t run;
     pthread_cond_t  cond;
     int             running;
+    int             begin;
     int             created_coders;
 } t_sim;
 

@@ -3,7 +3,7 @@
 void coder_compiling(t_coder *coder)
 {
     coder->compile_count++;
-    
+
     coder->last_compile = current_time();
     print_state(coder, "is compiling");
     usleep(coder->sim->args->time_to_compile * 1000);
@@ -32,13 +32,12 @@ void *working(void *args)
 
     coder = (t_coder *)args;
     pthread_mutex_lock(&coder->sim->sim_mutex);
-    coder->sim->created_coders++;
-    while (coder->sim->created_coders != coder->sim->args->number_of_coders)
+    while (!coder->sim->begin)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
-
     while (get_running(coder->sim))
     {
+        printf("HERE\n");
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
             return (NULL);
 
@@ -69,7 +68,6 @@ int setup_coders(t_sim *sim)
     int         i;
     int         state;
     pthread_t   threads[sim->args->number_of_coders];
-    sim->args->start_time = current_time();
 
     i = 0;
     while (i < sim->args->number_of_coders)
@@ -78,7 +76,7 @@ int setup_coders(t_sim *sim)
         sim->coders[i].args = sim->args;
         sim->coders[i].sim = sim;
         sim->coders[i].compile_count = 0;
-        sim->coders[i].last_compile =  sim->args->start_time;
+        sim->coders[i].last_compile =  0;
         sim->coders[i].arrived_time = 0;
         sim->coders[i].ids = malloc(sizeof(int) * 2);
         if (!sim->coders[i].ids)

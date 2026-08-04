@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 # include "codexion.h"
-
+PTHREAD_MUTEX_INITIALIZER
 int reach_goal(t_sim *sim)
 {
     int i;
@@ -35,10 +35,13 @@ void *monitoring(void *args)
     sim = (t_sim *)args;
     time_to_burnout = sim->args->time_to_burnout;
     
-    pthread_mutex_lock(&sim->monitor->monitor_mutex);
-    if (sim->created_coders == sim->args->number_of_coders)
-        pthread_cond_broadcast(&sim->cond);
-    pthread_mutex_unlock(&sim->monitor->monitor_mutex);
+    pthread_mutex_lock(&sim->sim_mutex);
+    sim->args->start_time = current_time();
+    set_running(sim, 1);
+    sim->begin = 1;
+    pthread_cond_broadcast(&sim->cond);
+    pthread_mutex_unlock(&sim->sim_mutex);
+    
     while (get_running(sim))
     {
         i = 0;
@@ -67,7 +70,7 @@ void start_monitor(t_sim *sim)
 {
     int         status;
 
-    set_running(sim, 1);
+    // set_running(sim, 0);
     sim->monitor = (t_monitor *)malloc(sizeof(t_monitor));
     pthread_mutex_init(&sim->monitor->monitor_mutex, NULL);
     status = pthread_create(&sim->monitor->monitor, NULL, monitoring, sim);
