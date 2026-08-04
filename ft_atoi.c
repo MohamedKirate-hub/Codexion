@@ -36,6 +36,11 @@ int ft_atoi(char *str)
             sign *= -1;
         i++;
     }
+    // if (!str[i])
+    // {
+    //     fprintf(stderr, "fffffffffffffffffffffffffff");
+    //     exit(0);
+    // }
 
     while (str[i])
     {

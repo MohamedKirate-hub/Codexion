@@ -84,6 +84,7 @@ typedef struct s_sim
     t_monitor       *monitor;
     pthread_mutex_t sim_mutex;
     pthread_mutex_t print_mutex;
+    pthread_mutex_t run;
     pthread_cond_t  cond;
     int             running;
     int             created_coders;
@@ -108,6 +109,7 @@ t_heap *create_heap(int capacity);
 // utils
 long current_time();
 void print_state(t_coder *data, char *state);
+void print_burnout(t_coder *data, char *state);
 void fn_usleep(long time);
 int sorting_methode(char *scheduler);
 void cleaner(t_coder *coder, t_sim *sim);
@@ -125,5 +127,5 @@ int request_dongles(t_coder *coder, t_sim *sim);
 // monitor
 void start_monitor(t_sim *sim);
 
-
-
+int get_running(t_sim *sim);
+void set_running(t_sim *sim, int val);

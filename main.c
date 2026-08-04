@@ -18,6 +18,7 @@ int main(int ac, char **av)
     sim.created_coders = 0;
     pthread_cond_init(&sim.cond, NULL);
     pthread_mutex_init(&sim.sim_mutex, NULL);
+    pthread_mutex_init(&sim.run, NULL);
 
     sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
     if (!sim.coders)

@@ -24,12 +24,45 @@ long current_time()
     return (sec_tv*1000 + usec_tv/1000);
 }
 
+int get_running(t_sim *sim)
+{
+    int state;
+
+    pthread_mutex_lock(&sim->run);
+    state = sim->running;
+    pthread_mutex_unlock(&sim->run);
+    return state;
+}
+
+void set_running(t_sim *sim, int val)
+{
+    int state;
+
+    pthread_mutex_lock(&sim->run);
+    sim->running = val;
+    pthread_mutex_unlock(&sim->run);
+}
+
 void print_state(t_coder *data, char *state)
 {
     t_coder *coder;
     long spend_time;
 
     coder = (t_coder *)data;
+    // printf("hello\n");
+    spend_time = current_time() - coder->args->start_time;
+    pthread_mutex_lock(&coder->sim->print_mutex);
+    if (get_running(coder->sim))
+    {
+        printf("%ld %d %s\n", spend_time, coder->id, state);
+    }
+    pthread_mutex_unlock(&coder->sim->print_mutex);
+}
+
+void print_burnout(t_coder *coder, char *state)
+{
+    long spend_time;
+
     spend_time = current_time() - coder->args->start_time;
     pthread_mutex_lock(&coder->sim->print_mutex);
     printf("%ld %d %s\n", spend_time, coder->id, state);

@@ -39,8 +39,7 @@ void *monitoring(void *args)
     if (sim->created_coders == sim->args->number_of_coders)
         pthread_cond_broadcast(&sim->cond);
     pthread_mutex_unlock(&sim->monitor->monitor_mutex);
-    pthread_mutex_lock(&sim->monitor->monitor_mutex);
-    while (sim->running)
+    while (get_running(sim))
     {
         i = 0;
         while (i < sim->args->number_of_coders)
@@ -48,20 +47,19 @@ void *monitoring(void *args)
             if (current_time() - sim->coders[i].last_compile >= time_to_burnout
                 && sim->coders[i].compile_count < sim->args->number_of_compiles_required)
             {
-                print_state(&sim->coders[i], "burned out");
-                sim->running = 0;
+                set_running(sim, 0);
+                print_burnout(&sim->coders[i], "burned out");
                 break;
             }
             i++;
         }
         if (reach_goal(sim))
         {
-            sim->running = 0;
+            set_running(sim, 0);
             break;
         }
-        usleep(1000);
+        // usleep(500);
     }
-    pthread_mutex_unlock(&sim->monitor->monitor_mutex);
     return NULL;
 }
 
@@ -69,10 +67,11 @@ void start_monitor(t_sim *sim)
 {
     int         status;
 
-    sim->running = 1;
+    set_running(sim, 1);
     sim->monitor = (t_monitor *)malloc(sizeof(t_monitor));
     pthread_mutex_init(&sim->monitor->monitor_mutex, NULL);
     status = pthread_create(&sim->monitor->monitor, NULL, monitoring, sim);
     if (status)
         return;
+    pthread_join(sim->monitor->monitor, NULL);
 }
