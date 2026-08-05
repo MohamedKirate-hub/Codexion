@@ -41,7 +41,7 @@ void *monitoring(void *args)
     sim->args->start_time = current_time();
     pthread_cond_broadcast(&sim->cond);
     pthread_mutex_unlock(&sim->sim_mutex);
-    printf("From monitor\n");
+    // printf("From monitor\n");
     while (get_running(sim))
     {
         i = 0;

@@ -34,7 +34,7 @@ void *working(void *args)
     while (!coder->sim->begin)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
-    printf("start coder id %d state: %d\n", coder->id, get_running(coder->sim));
+    // printf("start coder id %d state: %d\n", coder->id, get_running(coder->sim));
     while (get_running(coder->sim))
     {
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
@@ -44,7 +44,7 @@ void *working(void *args)
             break;
 
         int s = take_dongle(coder, coder->sim);
-        printf("coder working id: %d\n", coder->id);
+        // printf("coder working id: %d\n", coder->id);
         if (s)
         {
             if (!get_running(coder->sim))
