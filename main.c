@@ -43,7 +43,5 @@ int main(int ac, char **av)
 
     i = 0;
     while (i < args.number_of_coders)
-    {
         pthread_join(sim.coders[i++].thread, NULL);
-    }
 }

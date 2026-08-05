@@ -3,14 +3,13 @@
 void coder_compiling(t_coder *coder)
 {
     coder->compile_count++;
-
     coder->last_compile = current_time();
+
     print_state(coder, "is compiling");
     usleep(coder->sim->args->time_to_compile * 1000);
 
     coder->arrived_time = current_time();
     push(coder->left->heap, coder, coder->args->scheduler);
-    coder->arrived_time = current_time();
     push(coder->right->heap, coder, coder->args->scheduler);
 }
 
@@ -35,29 +34,30 @@ void *working(void *args)
     while (!coder->sim->begin)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
+    printf("start coder id %d state: %d\n", coder->id, get_running(coder->sim));
     while (get_running(coder->sim))
     {
-        printf("HERE\n");
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
             return (NULL);
 
         if (!get_running(coder->sim))
             break;
-        if (request_dongles(coder, coder->sim))
+
+        int s = take_dongle(coder, coder->sim);
+        printf("coder working id: %d\n", coder->id);
+        if (s)
         {
-            if (take_dongle(coder, coder->sim))
-            {
-                if (!get_running(coder->sim))
-                    break;
-                coder_compiling(coder);
-                cleaner(coder, coder->sim);
-                if (!get_running(coder->sim))
-                    break;
-                coder_debugging(coder);
-                if (!get_running(coder->sim))
-                    break;
-                coder_refactoring(coder);
-            }
+            if (!get_running(coder->sim))
+                break;
+
+            coder_compiling(coder);
+            cleaner(coder, coder->sim);
+            if (!get_running(coder->sim))
+                break;
+            coder_debugging(coder);
+            if (!get_running(coder->sim))
+                break;
+            coder_refactoring(coder);
         }
     }
     return (NULL);

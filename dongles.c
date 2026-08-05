@@ -14,11 +14,10 @@
 
 int check_dongle(t_dongle *dongle, long coldown)
 {
-    int valid;
-
     pthread_mutex_lock(&dongle->mutex);
-    if (dongle->available && current_time() - dongle->releast_time > coldown)
+    if (dongle->available && current_time() - dongle->releast_time >= coldown)
     {
+        dongle->available = 0;
         pthread_mutex_unlock(&dongle->mutex);
         return (1);
     }
@@ -33,13 +32,12 @@ int take_dongle(t_coder *coder, t_sim *sim)
 
     left_id = coder->ids[0];
     right_id = coder->ids[1];
-
     if (coder->id % 2 == 0)
     {
         if (check_dongle(&sim->dongles[right_id], sim->args->dongle_cooldown))
         {
             pthread_mutex_lock(&sim->dongles[right_id].mutex);
-            sim->dongles[right_id].available = 0;
+            // sim->dongles[right_id].available = 0
             // pop(sim->dongles[right_id].heap, sim->args->scheduler);
             coder->right = &sim->dongles[right_id];
             coder->right_taked = 1;
@@ -51,7 +49,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
             if (check_dongle(&sim->dongles[left_id], sim->args->dongle_cooldown))
             {
                 pthread_mutex_lock(&sim->dongles[left_id].mutex);
-                sim->dongles[left_id].available = 0;
+                // sim->dongles[left_id].available = 0;
                 pop(sim->dongles[left_id].heap, sim->args->scheduler);
                 pop(sim->dongles[right_id].heap, sim->args->scheduler);
                 coder->left = &sim->dongles[left_id];
@@ -62,8 +60,11 @@ int take_dongle(t_coder *coder, t_sim *sim)
             }
             else
             {
+                pthread_mutex_lock(&sim->dongles[right_id].mutex);
                 sim->dongles[right_id].available = 1;
                 coder->right_taked = 0;
+                coder->right = NULL;
+                pthread_mutex_unlock(&sim->dongles[right_id].mutex);
             }
         }
 
@@ -95,8 +96,11 @@ int take_dongle(t_coder *coder, t_sim *sim)
             }
             else
             {
+                pthread_mutex_lock(&sim->dongles[left_id].mutex);
                 sim->dongles[left_id].available = 1;
                 coder->left_taked = 0;
+                coder->left = NULL;
+                pthread_mutex_unlock(&sim->dongles[left_id].mutex);
             }
         }
     }

@@ -50,9 +50,7 @@ void print_state(t_coder *coder, char *state)
     pthread_mutex_lock(&coder->sim->print_mutex);
     spend_time = current_time() - coder->args->start_time;
     if (get_running(coder->sim))
-    {
         printf("%ld %d %s\n", spend_time, coder->id, state);
-    }
     pthread_mutex_unlock(&coder->sim->print_mutex);
 }
 
@@ -60,10 +58,10 @@ void print_burnout(t_coder *coder, char *state)
 {
     long spend_time;
 
-    pthread_mutex_lock(&coder->sim->print_mutex);
+    pthread_mutex_lock(&coder->sim->monitor->monitor_mutex);
     spend_time = current_time() - coder->args->start_time;
     printf("%ld %d %s\n", spend_time, coder->id, state);
-    pthread_mutex_unlock(&coder->sim->print_mutex);
+    pthread_mutex_unlock(&coder->sim->monitor->monitor_mutex);
 }
 
 int sorting_methode(char *scheduler)
