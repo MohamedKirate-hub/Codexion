@@ -5,14 +5,11 @@ void coder_compiling(t_coder *coder)
     pthread_mutex_lock(&coder->sim->compile);
     coder->compile_count++;
     coder->last_compile = current_time();
+    coder->arrived_time = current_time();
     pthread_mutex_unlock(&coder->sim->compile);
 
     print_state(coder, "is compiling");
     usleep(coder->sim->args->time_to_compile * 1000);
-
-    coder->arrived_time = current_time();
-    push(coder->left->heap, coder, coder->args->scheduler);
-    push(coder->right->heap, coder, coder->args->scheduler);
 }
 
 void coder_debugging(t_coder* coder)
@@ -25,6 +22,9 @@ void coder_refactoring(t_coder* coder)
 {
     print_state(coder, "is refactoring");
     usleep(coder->args->time_to_refactor * 1000);
+
+    push(coder->left->heap, coder, coder->args->scheduler);
+    push(coder->right->heap, coder, coder->args->scheduler);
 }
 
 void *working(void *args)
@@ -37,6 +37,7 @@ void *working(void *args)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
     // printf("start coder id %d state: %d\n", coder->id, get_running(coder->sim));
+
     while (get_running(coder->sim))
     {
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
@@ -44,7 +45,7 @@ void *working(void *args)
 
         if (!get_running(coder->sim))
             break;
-
+        // printf("coder %d\n", coder->id);
         int s = take_dongle(coder, coder->sim);
         // printf("coder working id: %d\n", coder->id);
         if (s)
@@ -61,6 +62,7 @@ void *working(void *args)
                 break;
             coder_refactoring(coder);
         }
+        usleep(1000);
     }
     return (NULL);
 }
@@ -77,8 +79,8 @@ int setup_coders(t_sim *sim)
         sim->coders[i].id = i+1;
         sim->coders[i].args = sim->args;
         sim->coders[i].sim = sim;
-        sim->coders[i].compile_count = current_time();
-        sim->coders[i].last_compile =  current_time();
+        sim->coders[i].compile_count = 0;
+        sim->coders[i].last_compile =  0;
         sim->coders[i].arrived_time = 0;
         sim->coders[i].left_taked = 0;
         sim->coders[i].right_taked = 0;

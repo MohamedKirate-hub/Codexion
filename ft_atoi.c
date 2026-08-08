@@ -14,7 +14,7 @@ void is_overflow(int digit, int res, int sign)
     if (sign == 1 && (res > INT_MAX / 10
 		|| (res == INT_MAX / 10 && digit > 7)))
     {
-        printf("ERROR: INT overflow.\n");
+        fprintf(stderr, "ERROR: INT overflow.\n");
         exit(1);
     }
 }
@@ -46,7 +46,7 @@ int ft_atoi(char *str)
     {
         if (!is_digit(str[i]))
         {
-            printf("ERROR: please enter number.\n");
+            fprintf(stderr, "ERROR: please enter number.\n");
             exit(1);
         }
         digit = str[i] - 48;

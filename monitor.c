@@ -15,11 +15,15 @@
 int reach_goal(t_sim *sim)
 {
     int i;
+    int compile_count;
 
     i = 0;
     while (i < sim->args->number_of_coders)
     {
-        if (sim->coders[i].compile_count < sim->args->number_of_compiles_required)
+        pthread_mutex_lock(&sim->compile);
+        compile_count = sim->coders[i].compile_count;
+        pthread_mutex_unlock(&sim->compile);
+        if (compile_count < sim->args->number_of_compiles_required)
             return (0);
         i++;
     }
@@ -39,11 +43,11 @@ void *monitoring(void *args)
     
     pthread_mutex_lock(&sim->sim_mutex);
     sim->begin = 1;
-    sim->running = 1;
+    set_running(sim, 1);
     sim->args->start_time = current_time();
     pthread_cond_broadcast(&sim->cond);
     pthread_mutex_unlock(&sim->sim_mutex);
-    // printf("From monitor\n");
+
     while (get_running(sim))
     {
         i = 0;
@@ -55,10 +59,10 @@ void *monitoring(void *args)
             compile_count = sim->coders[i].compile_count;
             pthread_mutex_unlock(&sim->compile);
 
-            if (current_time() - last_compile >= time_to_burnout
+            if ((current_time() - sim->args->start_time) - last_compile >= time_to_burnout
                 && compile_count < sim->args->number_of_compiles_required)
             {
-                print_burnout(&sim->coders[i], "burned out");
+                print_state(&sim->coders[i], "burned out");
                 set_running(sim, 0);
                 break;
             }

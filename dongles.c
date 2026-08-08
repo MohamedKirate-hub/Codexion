@@ -12,10 +12,12 @@
 
 #include "codexion.h"
 
-int check_dongle(t_dongle *dongle, long coldown)
+int check_dongle(t_dongle *dongle, int coder_id,
+                 long coldown)
 {
     pthread_mutex_lock(&dongle->mutex);
-    if (dongle->available && current_time() - dongle->releast_time >= coldown)
+    if (coder_id == dongle->heap->data[0]->id
+        && dongle->available && current_time() - dongle->releast_time >= coldown)
     {
         dongle->available = 0;
         pthread_mutex_unlock(&dongle->mutex);
@@ -32,9 +34,11 @@ int take_dongle(t_coder *coder, t_sim *sim)
 
     left_id = coder->ids[0];
     right_id = coder->ids[1];
+
+    // printf("coder %d try take donle\n", coder->id);
     if (coder->id % 2 == 0)
     {
-        if (check_dongle(&sim->dongles[right_id], sim->args->dongle_cooldown))
+        if (check_dongle(&sim->dongles[right_id], coder->id, sim->args->dongle_cooldown))
         {
             pthread_mutex_lock(&sim->dongles[right_id].mutex);
             coder->right = &sim->dongles[right_id];
@@ -44,7 +48,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
 
         if (coder->right_taked)
         {
-            if (check_dongle(&sim->dongles[left_id], sim->args->dongle_cooldown))
+            if (check_dongle(&sim->dongles[left_id], coder->id, sim->args->dongle_cooldown))
             {
                 pthread_mutex_lock(&sim->dongles[left_id].mutex);
                 pop(sim->dongles[left_id].heap, sim->args->scheduler);
@@ -54,6 +58,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 print_state(coder, "has take a dongle");
                 print_state(coder, "has take a dongle");
                 pthread_mutex_unlock(&sim->dongles[left_id].mutex);
+                // printf("#########coder %d take dongles\n", coder->id);
             }
             else
             {
@@ -64,11 +69,10 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 pthread_mutex_unlock(&sim->dongles[right_id].mutex);
             }
         }
-
     }
     else
     {
-        if (check_dongle(&sim->dongles[left_id], sim->args->dongle_cooldown))
+        if (check_dongle(&sim->dongles[left_id], coder->id, sim->args->dongle_cooldown))
         {
             pthread_mutex_lock(&sim->dongles[left_id].mutex);
             sim->dongles[left_id].available = 0;
@@ -80,7 +84,7 @@ int take_dongle(t_coder *coder, t_sim *sim)
 
         if (coder->left_taked)
         {
-            if (check_dongle(&sim->dongles[right_id], sim->args->dongle_cooldown))
+            if (check_dongle(&sim->dongles[right_id], coder->id, sim->args->dongle_cooldown))
             {
                 pthread_mutex_lock(&sim->dongles[right_id].mutex);
                 sim->dongles[right_id].available = 0;

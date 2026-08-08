@@ -15,9 +15,9 @@ int main(int ac, char **av)
 
     args = parser(av);
     sim.args = &args;
-    sim.created_coders = 0;
     pthread_cond_init(&sim.cond, NULL);
     pthread_mutex_init(&sim.sim_mutex, NULL);
+    pthread_mutex_init(&sim.print_mutex, NULL);
     pthread_mutex_init(&sim.run, NULL);
     pthread_mutex_init(&sim.compile, NULL);
 

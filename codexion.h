@@ -89,7 +89,6 @@ typedef struct s_sim
     pthread_cond_t  cond;
     int             running;
     int             begin;
-    int             created_coders;
 } t_sim;
 
 typedef struct s_monitor

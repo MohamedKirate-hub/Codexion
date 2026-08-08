@@ -49,7 +49,7 @@ void print_state(t_coder *coder, char *state)
 
     pthread_mutex_lock(&coder->sim->print_mutex);
     spend_time = current_time() - coder->args->start_time;
-    if (get_running(coder->sim))
+    if (get_running(coder->sim) || !strcmp(state, "burned out"))
         printf("%ld %d %s\n", spend_time, coder->id, state);
     pthread_mutex_unlock(&coder->sim->print_mutex);
 }
@@ -79,14 +79,17 @@ void cleaner(t_coder *coder, t_sim *sim)
     left_id = coder->ids[0];
     right_id = coder->ids[1];
 
+    pthread_mutex_lock(&sim->dongles[left_id].mutex);
     sim->dongles[left_id].available = 1;
     sim->dongles[left_id].releast_time = current_time();
+    coder->left_taked = 0;
+    pthread_mutex_unlock(&sim->dongles[left_id].mutex);
+
+    pthread_mutex_lock(&sim->dongles[right_id].mutex);
     sim->dongles[right_id].available = 1;
     sim->dongles[right_id].releast_time = current_time();
-    coder->left_taked = 0;
     coder->right_taked = 0;
-    pthread_mutex_unlock(&coder->sim->dongles[left_id].mutex);
-    pthread_mutex_unlock(&coder->sim->dongles[right_id].mutex);
+    pthread_mutex_unlock(&sim->dongles[right_id].mutex);
 }
 
 void fill_heap(t_coder *coder)
