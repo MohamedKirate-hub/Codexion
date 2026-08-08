@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/02 11:39:28 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/08 12:35:28 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_sim
     pthread_mutex_t sim_mutex;
     pthread_mutex_t print_mutex;
     pthread_mutex_t run;
+    pthread_mutex_t compile;
     pthread_cond_t  cond;
     int             running;
     int             begin;

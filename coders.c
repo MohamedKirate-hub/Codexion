@@ -2,8 +2,10 @@
 
 void coder_compiling(t_coder *coder)
 {
+    pthread_mutex_lock(&coder->sim->compile);
     coder->compile_count++;
     coder->last_compile = current_time();
+    pthread_mutex_unlock(&coder->sim->compile);
 
     print_state(coder, "is compiling");
     usleep(coder->sim->args->time_to_compile * 1000);
@@ -75,9 +77,11 @@ int setup_coders(t_sim *sim)
         sim->coders[i].id = i+1;
         sim->coders[i].args = sim->args;
         sim->coders[i].sim = sim;
-        sim->coders[i].compile_count = 0;
-        sim->coders[i].last_compile =  0;
+        sim->coders[i].compile_count = current_time();
+        sim->coders[i].last_compile =  current_time();
         sim->coders[i].arrived_time = 0;
+        sim->coders[i].left_taked = 0;
+        sim->coders[i].right_taked = 0;
         sim->coders[i].ids = malloc(sizeof(int) * 2);
         if (!sim->coders[i].ids)
         {

@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/02 11:22:06 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/08 12:39:05 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
         if (check_dongle(&sim->dongles[right_id], sim->args->dongle_cooldown))
         {
             pthread_mutex_lock(&sim->dongles[right_id].mutex);
-            // sim->dongles[right_id].available = 0
-            // pop(sim->dongles[right_id].heap, sim->args->scheduler);
             coder->right = &sim->dongles[right_id];
             coder->right_taked = 1;
             pthread_mutex_unlock(&sim->dongles[right_id].mutex);
@@ -49,7 +47,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
             if (check_dongle(&sim->dongles[left_id], sim->args->dongle_cooldown))
             {
                 pthread_mutex_lock(&sim->dongles[left_id].mutex);
-                // sim->dongles[left_id].available = 0;
                 pop(sim->dongles[left_id].heap, sim->args->scheduler);
                 pop(sim->dongles[right_id].heap, sim->args->scheduler);
                 coder->left = &sim->dongles[left_id];

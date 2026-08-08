@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/25 12:07:00 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/08/08 12:42:22 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void *monitoring(void *args)
     t_sim   *sim;
     int     i;
     long    time_to_burnout;
+    long    last_compile;
+    int     compile_count;
 
     sim = (t_sim *)args;
     time_to_burnout = sim->args->time_to_burnout;
@@ -48,8 +50,13 @@ void *monitoring(void *args)
         usleep(1000);
         while (i < sim->args->number_of_coders)
         {
-            if (current_time() - sim->coders[i].last_compile >= time_to_burnout
-                && sim->coders[i].compile_count < sim->args->number_of_compiles_required)
+            pthread_mutex_lock(&sim->compile);
+            last_compile = sim->coders[i].last_compile;
+            compile_count = sim->coders[i].compile_count;
+            pthread_mutex_unlock(&sim->compile);
+
+            if (current_time() - last_compile >= time_to_burnout
+                && compile_count < sim->args->number_of_compiles_required)
             {
                 print_burnout(&sim->coders[i], "burned out");
                 set_running(sim, 0);
@@ -60,6 +67,7 @@ void *monitoring(void *args)
         if (reach_goal(sim))
         {
             set_running(sim, 0);
+            sim->begin = 0;
             break;
         }
     }
