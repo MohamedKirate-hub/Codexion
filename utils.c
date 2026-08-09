@@ -43,7 +43,7 @@ void set_running(t_sim *sim, int val)
     pthread_mutex_unlock(&sim->run);
 }
 
-void print_state(t_coder *coder, char *state)
+int print_state(t_coder *coder, char *state)
 {
     long spend_time;
 
@@ -52,6 +52,7 @@ void print_state(t_coder *coder, char *state)
     if (get_running(coder->sim) || !strcmp(state, "burned out"))
         printf("%ld %d %s\n", spend_time, coder->id, state);
     pthread_mutex_unlock(&coder->sim->print_mutex);
+    return (0);
 }
 
 void print_burnout(t_coder *coder, char *state)

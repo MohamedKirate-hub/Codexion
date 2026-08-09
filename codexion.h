@@ -103,13 +103,13 @@ typedef struct s_monitor
 int ft_atoi(char *str);
 t_args parser(char **av);
 
-void push(t_heap *heap, t_coder *coder, char* scheduler);
+int push(t_heap *heap, t_coder *coder, char* scheduler);
 t_coder *pop(t_heap *heap, char* scheduler);
 t_heap *create_heap(int capacity);
 
 // utils
 long current_time();
-void print_state(t_coder *data, char *state);
+int print_state(t_coder *data, char *state);
 void print_burnout(t_coder *data, char *state);
 void fn_usleep(long time);
 int sorting_methode(char *scheduler);

@@ -110,23 +110,26 @@ void bubble_up(t_heap *heap, int size, char* scheduler)
     }
 }
 
-void push(t_heap *heap, t_coder *coder, char *scheduler)
+int push(t_heap *heap, t_coder *coder, char *scheduler)
 {
     pthread_mutex_lock(&heap->heap_mutex);
     if (heap->count == heap->capacity)
     {
         pthread_mutex_unlock(&heap->heap_mutex);
-        return;
+        fprintf(stderr, "Error: cannot push coder %d: heap is full\n", coder->id);
+        return (1);
     }
     heap->data[heap->count] = coder;
     heap->count++;
     bubble_up(heap, heap->count-1, scheduler);
     pthread_mutex_unlock(&heap->heap_mutex);
+    return (0);
 }
 
 t_coder *pop(t_heap *heap, char* scheduler)
 {
     t_coder *coder;
+    
     pthread_mutex_lock(&heap->heap_mutex);
     if (heap->count == 0)
     {
