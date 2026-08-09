@@ -15,11 +15,22 @@ int main(int ac, char **av)
 
     args = parser(av);
     sim.args = &args;
-    pthread_cond_init(&sim.cond, NULL);
-    pthread_mutex_init(&sim.sim_mutex, NULL);
-    pthread_mutex_init(&sim.print_mutex, NULL);
-    pthread_mutex_init(&sim.run, NULL);
-    pthread_mutex_init(&sim.compile, NULL);
+
+    status = pthread_cond_init(&sim.cond, NULL);
+    if (status)
+        return (1);
+    status = pthread_mutex_init(&sim.sim_mutex, NULL);
+    if (status)
+        return (1);
+    status = pthread_mutex_init(&sim.print_mutex, NULL);
+    if (status)
+        return (1);
+    status = pthread_mutex_init(&sim.run, NULL);
+    if (status)
+        return (1);
+    status = pthread_mutex_init(&sim.compile, NULL);
+    if (status)
+        return (1);
 
     sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
     if (!sim.coders)

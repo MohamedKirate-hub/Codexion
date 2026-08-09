@@ -90,17 +90,21 @@ int setup_coders(t_sim *sim)
             while (i > 0)
                 free(sim->coders[--i].ids);
             fprintf(stderr, "Error: failed to allocate memory for coder IDs.\n");
-            exit(1);   
+            return (1);   
         }
         sim->coders[i].ids[0] = i;
         sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
         fill_heap(&sim->coders[i]);
 
-        state = pthread_create(&threads[i], NULL, working, &sim->coders[i]);
-        if (state)
+        if (pthread_create(&threads[i], NULL, working, &sim->coders[i]))
         {
-            fprintf(stderr, "Error in creating thread,\n");
-            exit(1);
+            printf("Failed to create thread %d\n", i);
+            while (--i >= 0)
+            {
+                set_running(sim, 0);
+                pthread_join(threads[i], NULL);
+            }
+            return (0);
         }
         sim->coders[i].thread = threads[i];
         i++;

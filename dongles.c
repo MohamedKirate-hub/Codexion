@@ -35,7 +35,8 @@ int take_dongle(t_coder *coder, t_sim *sim)
     left_id = coder->ids[0];
     right_id = coder->ids[1];
 
-    // printf("coder %d try take donle\n", coder->id);
+    push(sim->dongles[left_id].heap, coder, sim->args->scheduler);
+    push(sim->dongles[right_id].heap, coder, sim->args->scheduler);
     if (coder->id % 2 == 0)
     {
         if (check_dongle(&sim->dongles[right_id], coder->id, sim->args->dongle_cooldown))
@@ -58,7 +59,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
                 print_state(coder, "has take a dongle");
                 print_state(coder, "has take a dongle");
                 pthread_mutex_unlock(&sim->dongles[left_id].mutex);
-                // printf("#########coder %d take dongles\n", coder->id);
             }
             else
             {
@@ -105,7 +105,14 @@ int take_dongle(t_coder *coder, t_sim *sim)
             }
         }
     }
-    return (coder->right_taked == 1 && coder->left_taked == 1 ? 1 : 0);
+    if (coder->right_taked == 1 && coder->left_taked == 1)
+        return (1);
+    else
+    {
+        pop(sim->dongles[left_id].heap, sim->args->scheduler);
+        pop(sim->dongles[right_id].heap, sim->args->scheduler);
+        return (0);
+    }
 }
 
 void setup_dongles(t_sim *sim, int capacity)
