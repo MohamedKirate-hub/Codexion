@@ -110,6 +110,7 @@ void reserver_dongle(t_dongle *first, t_dongle *second, t_coder *coder, int orde
                 coder->left_taked = 1;
             }
             print_state(coder, "has take a dongle");
+            print_state(coder, "has take a dongle");
             pthread_mutex_unlock(&second->mutex);
         }
         else
