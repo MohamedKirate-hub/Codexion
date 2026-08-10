@@ -2,7 +2,7 @@
 
 int main(int ac, char **av)
 {
-    t_args  args;
+    t_args  *args;
     t_sim   sim;
     int     status;
     int     i;
@@ -14,7 +14,17 @@ int main(int ac, char **av)
     }
 
     args = parser(av);
-    sim.args = &args;
+    if (!args)
+    {
+        printf("ffffffffff\n");
+        return (1);
+    }
+
+    status = pthread_mutex_init(&args->mutex, NULL);
+    if (status)
+        return (1);
+
+    sim.args = args;
 
     status = pthread_cond_init(&sim.cond, NULL);
     if (status)
@@ -32,13 +42,13 @@ int main(int ac, char **av)
     if (status)
         return (1);
 
-    sim.coders = malloc(sizeof(t_coder ) * args.number_of_coders);
+    sim.coders = malloc(sizeof(t_coder ) * args->number_of_coders);
     if (!sim.coders)
     {
         fprintf(stderr, "Error: failed to allocate memory for coders creation.\n");
         exit(1);
     }
-    sim.dongles = malloc(sizeof(t_dongle) * args.number_of_coders);
+    sim.dongles = malloc(sizeof(t_dongle) * args->number_of_coders);
     if (!sim.dongles)
     {
         fprintf(stderr, "Error: failed to allocate memory for Dongles creation.\n");
@@ -48,12 +58,16 @@ int main(int ac, char **av)
     sim.running = 0;
     sim.begin = 0;
     
-    setup_dongles(&sim, args.number_of_coders);
+    if (setup_dongles(&sim, args->number_of_coders))
+        return (1);
     status = setup_coders(&sim);
     if (status)
         return (1);
 
     i = 0;
-    while (i < args.number_of_coders)
+    while (i < args->number_of_coders)
         pthread_join(sim.coders[i++].thread, NULL);
+    
+    free_dongles(&sim);
+    free_things(&sim);
 }

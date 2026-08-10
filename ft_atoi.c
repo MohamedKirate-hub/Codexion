@@ -7,16 +7,16 @@ int is_digit(char c)
     return (0);
 }
 
-void is_overflow(int digit, int res, int sign)
+int is_overflow(int digit, int res)
 {
     long int_max = 0;
     long int_min = 0;
-    if (sign == 1 && (res > INT_MAX / 10
-		|| (res == INT_MAX / 10 && digit > 7)))
+    if (res > INT_MAX / 10 || (res == INT_MAX / 10 && digit > 7))
     {
         fprintf(stderr, "ERROR: INT overflow.\n");
-        exit(1);
+        return (1);
     }
+    return (0);
 }
 
 int ft_atoi(char *str)
@@ -28,29 +28,24 @@ int ft_atoi(char *str)
 
     i = 0;
     res = 0;
-    sign = 1;
 
-    if (str[i] == '+' || str[i] == '-')
-    {
-        if (str[i] == '-')
-            sign *= -1;
+    if (str[i] == '+')
         i++;
+    if (!str[i])
+    {
+        fprintf(stderr, "fffffffffffffffffffffffffff");
+        return (-1);
     }
-    // if (!str[i])
-    // {
-    //     fprintf(stderr, "fffffffffffffffffffffffffff");
-    //     exit(0);
-    // }
-
     while (str[i])
     {
         if (!is_digit(str[i]))
         {
             fprintf(stderr, "ERROR: please enter number.\n");
-            exit(1);
+            return (-1);
         }
         digit = str[i] - 48;
-        is_overflow(digit, res, sign);
+        if (is_overflow(digit, res))
+            return (-1);
         res = res * 10 + digit;
         i++;
     }

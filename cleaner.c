@@ -20,12 +20,10 @@ void free_dongles(t_sim *sim)
     i = 0;
     while (i < sim->args->number_of_coders)
     {
-        j = 0;
-        while (j < sim->dongles[i].heap->count)
-            free(sim->dongles[i].heap->data[j++]);
-        free(sim->dongles[i].heap);
-        pthread_mutex_destroy(&sim->dongles->heap->heap_mutex);
+        free(sim->dongles[i].heap->data);
         pthread_mutex_destroy(&sim->dongles[i].mutex);
+        pthread_mutex_destroy(&sim->dongles[i].heap->heap_mutex);
+        free(sim->dongles[i].heap);
         i++;
     }
     free(sim->dongles);

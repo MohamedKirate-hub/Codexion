@@ -1,11 +1,11 @@
 HEADER=codexion.h
 NAME=codexion
 CC = cc
-CFLAGS = 
+CFLAGS = #-Wall -Wextra -Werror
 RM = rm
 RMFLAGS = -rf
 SRCS = main.c ft_atoi.c request.c utils.c \
-	   coders.c dongles.c min_heap.c parser.c monitor.c \
+	   coders.c dongles.c min_heap.c parser.c monitor.c cleaner.c \
 # 	    simulation.c
 OBJECTS = ${SRCS:.c=.o}
 

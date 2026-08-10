@@ -90,8 +90,8 @@ int setup_coders(t_sim *sim)
         sim->coders[i].ids = malloc(sizeof(int) * 2);
         if (!sim->coders[i].ids)
         {
-            while (i > 0)
-                free(sim->coders[--i].ids);
+            while (--i >= 0)
+                free(sim->coders[i].ids);
             fprintf(stderr, "Error: failed to allocate memory for coder IDs.\n");
             return (1);
         }

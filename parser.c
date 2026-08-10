@@ -38,19 +38,42 @@ int string_validator(char *str)
     return (0);
 }
 
-t_args parser(char **av)
+t_args *parser(char **av)
 {
-    t_args data;
+    t_args *data;
 
-    data.number_of_coders = ft_atoi(av[1]);
-    data.time_to_burnout = ft_atoi(av[2]);
-    data.time_to_compile = ft_atoi(av[3]);
-    data.time_to_debug = ft_atoi(av[4]);
-    data.time_to_refactor = ft_atoi(av[5]);
-    data.number_of_compiles_required = ft_atoi(av[6]);
-    data.dongle_cooldown = ft_atoi(av[7]);
+    data = malloc(sizeof(t_args));
+    if (!data)
+        return (NULL);
+
+    data->number_of_coders = ft_atoi(av[1]);
+    if (data->number_of_coders == -1)
+        return (NULL);
+    data->time_to_burnout = ft_atoi(av[2]);
+    if (data->time_to_burnout == -1)
+        return (NULL);
+    data->time_to_compile = ft_atoi(av[3]);
+    if (data->time_to_compile == -1)
+        return (NULL);
+    data->time_to_debug = ft_atoi(av[4]);
+    if (data->time_to_debug == -1)
+        return (NULL);
+    data->time_to_refactor = ft_atoi(av[5]);
+    if (data->time_to_refactor == -1)
+        return (NULL);
+    data->number_of_compiles_required = ft_atoi(av[6]);
+    if (data->number_of_compiles_required == -1)
+        return (NULL);
+    data->dongle_cooldown = ft_atoi(av[7]);
+    if (data->dongle_cooldown == -1)
+        return (NULL);
     if (string_validator(av[8]))
-        data.scheduler = av[8];
+        data->scheduler = av[8];
+    else
+    {
+        fprintf(stderr, "ERROR: Invalid scheduler %s\n", av[8]);
+        return (NULL);
+    }
 
     return (data);
 }

@@ -101,7 +101,7 @@ typedef struct s_monitor
 } t_monitor;
 
 int ft_atoi(char *str);
-t_args parser(char **av);
+t_args *parser(char **av);
 
 int push(t_heap *heap, t_coder *coder, char* scheduler);
 t_coder *pop(t_heap *heap, char* scheduler);
@@ -111,14 +111,14 @@ t_heap *create_heap(int capacity);
 long current_time();
 int print_state(t_coder *data, char *state);
 void print_burnout(t_coder *data, char *state);
-void fn_usleep(long time);
+// void fn_usleep(long time);
 int sorting_methode(char *scheduler);
 void cleaner(t_coder *coder, t_sim *sim);
 void fill_heap(t_coder *coder);
 
 // dongles
 int take_dongle(t_coder *coder, t_sim *sim);
-void setup_dongles(t_sim *sim, int capacity);
+int setup_dongles(t_sim *sim, int capacity);
 
 // coders
 int setup_coders(t_sim *sim);
@@ -130,3 +130,7 @@ void start_monitor(t_sim *sim);
 
 int get_running(t_sim *sim);
 void set_running(t_sim *sim, int val);
+
+// cleaner
+void free_dongles(t_sim *sim);
+void free_things(t_sim *sim);
