@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/08 12:35:28 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/10 15:34:59 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct s_monitor
 } t_monitor;
 
 int ft_atoi(char *str);
-t_args *parser(char **av);
+t_args parser(char **av, int *valid);
 
 int push(t_heap *heap, t_coder *coder, char* scheduler);
 t_coder *pop(t_heap *heap, char* scheduler);
@@ -132,5 +132,26 @@ int get_running(t_sim *sim);
 void set_running(t_sim *sim, int val);
 
 // cleaner
-void free_dongles(t_sim *sim);
-void free_things(t_sim *sim);
+void free_dongles(t_sim *sim, int count);
+void free_things(t_sim *sim, int coder_setup);
+
+typedef struct s_parser_messages
+{
+    char *alloc_error;
+    char *invalid_argc;
+    char *invalid_arg;
+    char *dongle_alloc_error;
+    char *coder_alloc_error;
+    char *heap_push_error;
+    char *invalid_schedule;
+    char *mutex_init_error;
+    char *cond_init_error;
+    char *cond_wait_error;
+    char *cond_broadcast_error;
+}   t_parser_messages;
+t_parser_messages *get_parser_messages();
+int print_error(char *msg, int return_val);
+
+// init
+int init_sim(t_sim *sim);
+void init_coder(t_sim *sim, int i);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/10 13:27:13 by mkirat            #+#    #+#             */
+/*   Updated: 2026/08/10 13:27:14 by mkirat           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "codexion.h"
 
 int is_digit(char c)
@@ -21,7 +33,6 @@ int is_overflow(int digit, int res)
 
 int ft_atoi(char *str)
 {
-    int sign;
     int digit;
     int res;
     int i;
@@ -49,5 +60,5 @@ int ft_atoi(char *str)
         res = res * 10 + digit;
         i++;
     }
-    return (res * sign);
+    return (res);
 }

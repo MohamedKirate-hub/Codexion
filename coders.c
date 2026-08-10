@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   coders.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/10 13:26:58 by mkirat            #+#    #+#             */
+/*   Updated: 2026/08/10 15:32:00 by mkirat           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "codexion.h"
 
 void coder_compiling(t_coder *coder)
@@ -79,15 +91,7 @@ int setup_coders(t_sim *sim)
     i = 0;
     while (i < sim->args->number_of_coders)
     {
-        sim->coders[i].id = i+1;
-        sim->coders[i].args = sim->args;
-        sim->coders[i].sim = sim;
-        sim->coders[i].compile_count = 0;
-        sim->coders[i].last_compile =  0;
-        sim->coders[i].arrived_time = 0;
-        sim->coders[i].left_taked = 0;
-        sim->coders[i].right_taked = 0;
-        sim->coders[i].ids = malloc(sizeof(int) * 2);
+        init_coder(sim, i);
         if (!sim->coders[i].ids)
         {
             while (--i >= 0)
@@ -100,7 +104,7 @@ int setup_coders(t_sim *sim)
         // fill_heap(&sim->coders[i]);
         if (pthread_create(&threads[i], NULL, working, &sim->coders[i]))
         {
-            printf("Failed to create thread %d\n", i);
+            fprintf(stderr, "Failed to create thread %d\n", i);
             while (--i >= 0)
             {
                 set_running(sim, 0);
