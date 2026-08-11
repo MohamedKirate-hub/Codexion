@@ -33,11 +33,6 @@ int coder_refactoring(t_coder* coder)
 {
     print_state(coder, "is refactoring");
     usleep(coder->args->time_to_refactor * 1000);
-
-    if (push(coder->left->heap, coder, coder->args->scheduler))
-        return (1);
-    if (push(coder->right->heap, coder, coder->args->scheduler))
-        return (1);
     return (0);
 }
 

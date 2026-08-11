@@ -52,8 +52,6 @@ typedef struct s_coder{
 
     t_sim       *sim;
     t_args      *args;
-
-    // int stop_running
 } t_coder;
 
 typedef struct s_heap

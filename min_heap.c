@@ -116,8 +116,8 @@ int push(t_heap *heap, t_coder *coder, char *scheduler)
     if (heap->count == heap->capacity)
     {
         pthread_mutex_unlock(&heap->heap_mutex);
-        // fprintf(stderr, "Error: cannot push coder %d: heap is full\n", coder->id);
-        return (0);
+        fprintf(stderr, "Error: cannot push coder %d: heap is full\n", coder->id);
+        return (-1);
     }
     heap->data[heap->count] = coder;
     heap->count++;

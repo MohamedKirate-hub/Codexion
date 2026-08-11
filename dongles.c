@@ -60,10 +60,10 @@ void reserver_dongle(t_dongle *first, t_dongle *second, t_coder *coder, int orde
         if (check_dongle(second, coder->id, coder->sim->args->dongle_cooldown))
         {
             pthread_mutex_lock(&second->mutex);
-            remove_coder(first->heap, coder->id, coder->sim->args->scheduler);
-            remove_coder(second->heap, coder->id, coder->sim->args->scheduler);
-            // pop(first->heap, coder->sim->args->scheduler);
-            // pop(second->heap, coder->sim->args->scheduler);
+            // remove_coder(first->heap, coder->id, coder->sim->args->scheduler);
+            // remove_coder(second->heap, coder->id, coder->sim->args->scheduler);
+            pop(first->heap, coder->sim->args->scheduler);
+            pop(second->heap, coder->sim->args->scheduler);
             if (order == 0)
             {
                 coder->right = second;
@@ -118,8 +118,6 @@ int take_dongle(t_coder *coder, t_sim *sim)
     {
         remove_coder(sim->dongles[left_id].heap, coder->id, coder->sim->args->scheduler);
         remove_coder(sim->dongles[right_id].heap, coder->id, coder->sim->args->scheduler);
-        // pop(sim->dongles[left_id].heap, sim->args->scheduler);
-        // pop(sim->dongles[right_id].heap, sim->args->scheduler);
         return (0);
     }
 }
