@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/10 15:34:59 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/11 13:12:30 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,9 @@ int ft_atoi(char *str);
 t_args parser(char **av, int *valid);
 
 int push(t_heap *heap, t_coder *coder, char* scheduler);
+void bubble_up(t_heap *heap, int size, char* scheduler);
+void bubble_down(t_heap *heap, int size, char *scheduler);
+t_coder *remove_coder(t_heap *heap, int coder_id, char *schedelure);
 t_coder *pop(t_heap *heap, char* scheduler);
 t_heap *create_heap(int capacity);
 

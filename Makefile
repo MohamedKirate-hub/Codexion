@@ -4,7 +4,7 @@ CC = cc
 CFLAGS = #-Wall -Wextra -Werror
 RM = rm
 RMFLAGS = -rf
-SRCS = main.c ft_atoi.c request.c utils.c error.c init.c \
+SRCS = main.c ft_atoi.c request.c utils.c error.c init.c min_heap_utils.c \
 	   coders.c dongles.c min_heap.c parser.c monitor.c cleaner.c \
 # 	    simulation.c
 OBJECTS = ${SRCS:.c=.o}
