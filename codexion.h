@@ -127,8 +127,6 @@ int setup_dongles(t_sim *sim, int capacity);
 // coders
 int setup_coders(t_sim *sim);
 
-int request_dongles(t_coder *coder, t_sim *sim);
-
 // monitor
 void start_monitor(t_sim *sim);
 
@@ -162,3 +160,4 @@ void init_coder(t_sim *sim, int i);
 
 
 int request_dongle(t_dongle *dongle, t_coder *coder);
+int	take_dongles(t_coder *coder);

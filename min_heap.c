@@ -70,15 +70,25 @@ void bubble_down(t_heap *heap, int size, char *scheduler)
         else
         {
             if (right_child < heap->count &&
-                heap->data[left_child]->last_compile > heap->data[right_child]->last_compile )
+                heap->data[left_child]->last_compile > heap->data[right_child]->last_compile)
                 small_child = right_child;
-            if (heap->data[small_child]->last_compile < heap->data[i]->last_compile )
+            if (heap->data[small_child]->last_compile < heap->data[i]->last_compile)
                 swap(heap->data + small_child, heap->data + i);
             else
                 break;
         }
         i = small_child;
     }
+}
+
+long get_compile_time(t_coder *coder)
+{
+    long compile_time;
+
+    pthread_mutex_lock(&coder->sim->compile);
+    compile_time = coder->arrived_time;
+    pthread_mutex_unlock(&coder->sim->compile);
+    return (compile_time);
 }
 
 void bubble_up(t_heap *heap, int size, char* scheduler)
@@ -94,14 +104,19 @@ void bubble_up(t_heap *heap, int size, char* scheduler)
         parent = (i - 1) / 2;
         if (method == 2)
         {
-            if (heap->data[parent]->arrived_time  > heap->data[i]->arrived_time )
+            // # data race
+            if (heap->data[parent]->arrived_time > heap->data[i]->arrived_time)
+                swap(heap->data + parent, heap->data + i);
+            if (heap->data[parent]->compile_count  > heap->data[i]->compile_count)
                 swap(heap->data + parent, heap->data + i);
             else
                 break;
         }
         else
         {
-            if (heap->data[parent]->last_compile  > heap->data[i]->last_compile )
+            if (heap->data[parent]->last_compile  > heap->data[i]->last_compile)
+                swap(heap->data + parent, heap->data + i);
+            if (heap->data[parent]->compile_count  > heap->data[i]->compile_count)
                 swap(heap->data + parent, heap->data + i);
             else
                 break;

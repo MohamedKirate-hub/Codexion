@@ -43,4 +43,6 @@ void init_coder(t_sim *sim, int i)
     sim->coders[i].left_taked = 0;
     sim->coders[i].right_taked = 0;
     sim->coders[i].ids = malloc(sizeof(int) * 2);
+    sim->coders[i].left = &sim->dongles[i];
+    sim->coders[i].right = &sim->dongles[(i + 1) % sim->args->number_of_coders];
 }

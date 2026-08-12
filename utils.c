@@ -74,32 +74,15 @@ int sorting_methode(char *scheduler)
 
 void cleaner(t_coder *coder, t_sim *sim)
 {
-    int right_id;
-    int left_id;
-
-    left_id = coder->ids[0];
-    right_id = coder->ids[1];
-
-    pthread_mutex_lock(&sim->dongles[left_id].mutex);
-    sim->dongles[left_id].available = 1;
-    sim->dongles[left_id].releast_time = current_time();
+    pthread_mutex_lock(&coder->left->mutex);
+    coder->left->available = 1;
+    coder->left->releast_time = current_time();
     coder->left_taked = 0;
-    pthread_mutex_unlock(&sim->dongles[left_id].mutex);
+    pthread_mutex_unlock(&coder->left->mutex);
 
-    pthread_mutex_lock(&sim->dongles[right_id].mutex);
-    sim->dongles[right_id].available = 1;
-    sim->dongles[right_id].releast_time = current_time();
+    pthread_mutex_lock(&coder->right->mutex);
+    coder->right->available = 1;
+    coder->right->releast_time = current_time();
     coder->right_taked = 0;
-    pthread_mutex_unlock(&sim->dongles[right_id].mutex);
-}
-
-void fill_heap(t_coder *coder)
-{
-    int         left_id;
-    int         right_id;
-
-    left_id = coder->ids[0];
-    right_id = coder->ids[1];
-    push(coder->sim->dongles[left_id].heap, coder, coder->sim->args->scheduler);
-    push(coder->sim->dongles[right_id].heap, coder, coder->sim->args->scheduler);
+    pthread_mutex_unlock(&coder->right->mutex);
 }

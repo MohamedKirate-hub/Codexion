@@ -16,8 +16,7 @@ void coder_compiling(t_coder *coder)
 {
     pthread_mutex_lock(&coder->sim->compile);
     coder->compile_count++;
-    coder->last_compile = current_time();
-    coder->arrived_time = current_time();
+    coder->last_compile = current_time() - coder->args->start_time;
     pthread_mutex_unlock(&coder->sim->compile);
     print_state(coder, "is compiling");
     usleep(coder->sim->args->time_to_compile * 1000);
@@ -29,11 +28,10 @@ void coder_debugging(t_coder* coder)
     usleep(coder->args->time_to_debug * 1000);
 }
 
-int coder_refactoring(t_coder* coder)
+void coder_refactoring(t_coder* coder)
 {
     print_state(coder, "is refactoring");
     usleep(coder->args->time_to_refactor * 1000);
-    return (0);
 }
 
 void *working(void *args)
@@ -46,6 +44,8 @@ void *working(void *args)
     while (!coder->sim->begin)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
+    if (coder->id % 2 != 0)
+        usleep((coder->args->time_to_compile + coder->args->dongle_cooldown) / 2 * 1000);
     while (get_running(coder->sim))
     {
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
@@ -53,7 +53,10 @@ void *working(void *args)
 
         if (!get_running(coder->sim))
             break;
-        s = take_dongle(coder, coder->sim);
+        s = take_dongles(coder);
+
+        if (s == -1)
+            return (NULL);
         if (s)
         {
             if (!get_running(coder->sim))
@@ -66,11 +69,7 @@ void *working(void *args)
             coder_debugging(coder);
             if (!get_running(coder->sim))
                 break;
-            if (coder_refactoring(coder))
-            {
-                set_running(coder->sim, 0);
-                return (NULL);
-            }
+            coder_refactoring(coder);
         }
         usleep(1000);
     }

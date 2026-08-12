@@ -1,2 +1,7 @@
 ./codexion 198 3000 200 200 200 10 400 fifo
 ./codexion 199 3000 200 200 200 10 400 fifo
+./codexion 1 800 200 200 200 10 0 fifo
+
+
+
+./codexion 199 1400 100 100 100 2 600 fifo
