@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:50 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/10 15:47:53 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/12 13:24:21 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void init_coder(t_sim *sim, int i)
     sim->coders[i].id = i+1;
     sim->coders[i].args = sim->args;
     sim->coders[i].sim = sim;
+    
     sim->coders[i].compile_count = 0;
     sim->coders[i].last_compile =  0;
     sim->coders[i].arrived_time = 0;

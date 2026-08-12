@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/11 13:12:30 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/12 12:36:35 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_dongle
     long            releast_time;
     t_heap          *heap;
     pthread_mutex_t mutex;
+    pthread_cond_t  cond;
 } t_dongle;
 
 typedef struct s_coder{
@@ -158,3 +159,6 @@ int print_error(char *msg, int return_val);
 // init
 int init_sim(t_sim *sim);
 void init_coder(t_sim *sim, int i);
+
+
+int request_dongle(t_dongle *dongle, t_coder *coder);

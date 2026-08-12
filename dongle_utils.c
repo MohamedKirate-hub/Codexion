@@ -1,18 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   take_dongles.c                                     :+:      :+:    :+:   */
+/*   dongle_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/08/12 08:18:24 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/12 08:19:31 by mkirat           ###   ########.fr       */
+/*   Created: 2026/08/12 13:17:54 by mkirat            #+#    #+#             */
+/*   Updated: 2026/08/12 13:18:04 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
-
-int request_dongle(t_dongle *dongle, int coder_id, long coldown)
-{
-    
-}
+# include "codexion.h"

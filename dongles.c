@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/11 13:20:18 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/12 12:37:33 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,9 @@ int setup_dongles(t_sim *sim, int capacity)
             return (1);
         }
         if (pthread_mutex_init(&sim->dongles[i].mutex, NULL))
+            return (1);
+        
+        if (pthread_cond_init(&sim->dongles[i].cond, NULL))
             return (1);
         i++;
     }
