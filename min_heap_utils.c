@@ -6,37 +6,56 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:39:08 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/11 13:19:15 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 12:39:56 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "codexion.h"
 
-
-t_coder *remove_coder(t_heap *heap, int coder_id, char *schedelure)
+int compare_bubble_up(t_coder *parent, t_coder *child, int method)
 {
-    t_coder *removed_coder;
-    int i;
+    long    parent_val;
+    long    child_val;
+    int     parent_compile;
+    int     child_compile;
 
-    i = 0;
-    pthread_mutex_lock(&heap->heap_mutex);
-    while (i < heap->count && heap->data[i]->id != coder_id)
-        i++;
-    
-    if (i == heap->count)
+    parent_compile = get_compile_count(parent);
+    child_compile = get_compile_count(child);
+    if (method == 2)
     {
-        pthread_mutex_unlock(&heap->heap_mutex);
-        return (NULL);
+        parent_val = get_arrived_time(parent);
+        child_val = get_arrived_time(child);
+    }
+    else
+    {
+        parent_val = get_compile_time(parent);
+        child_val = get_compile_time(child);
     }
 
-    removed_coder = heap->data[i];
-    heap->count--;
-    heap->data[i] = heap->data[heap->count];
-    if (i < heap->count)
+    if (parent_val > child_val)
+        return (1);
+    if (parent_compile > child_compile)
+        return (1);
+    return (0);
+}
+
+int compare_bubble_down(t_coder *parent, t_coder *child, int method)
+{
+    long    parent_val;
+    long    child_val;
+
+    if (method == 2)
     {
-        bubble_down(heap, i, schedelure);
-        bubble_up(heap, i, schedelure);
+        parent_val = get_arrived_time(parent);
+        child_val = get_arrived_time(child);
     }
-    pthread_mutex_unlock(&heap->heap_mutex);
-    return (removed_coder);
+    else
+    {
+        parent_val = get_compile_time(parent);
+        child_val = get_compile_time(child);
+    }
+
+    if (parent_val > child_val)
+        return (1);
+    return (0);   
 }

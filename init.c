@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:50 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/12 13:24:21 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 11:19:00 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void init_coder(t_sim *sim, int i)
     sim->coders[i].arrived_time = 0;
     sim->coders[i].left_taked = 0;
     sim->coders[i].right_taked = 0;
-    sim->coders[i].ids = malloc(sizeof(int) * 2);
     sim->coders[i].left = &sim->dongles[i];
     sim->coders[i].right = &sim->dongles[(i + 1) % sim->args->number_of_coders];
 }

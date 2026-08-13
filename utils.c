@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/07/29 19:20:19 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 11:39:18 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,25 +22,6 @@ long current_time()
     sec_tv = tv.tv_sec;
     usec_tv = tv.tv_usec;
     return (sec_tv*1000 + usec_tv/1000);
-}
-
-int get_running(t_sim *sim)
-{
-    int state;
-
-    pthread_mutex_lock(&sim->run);
-    state = sim->running;
-    pthread_mutex_unlock(&sim->run);
-    return state;
-}
-
-void set_running(t_sim *sim, int val)
-{
-    int state;
-
-    pthread_mutex_lock(&sim->run);
-    sim->running = val;
-    pthread_mutex_unlock(&sim->run);
 }
 
 int print_state(t_coder *coder, char *state)

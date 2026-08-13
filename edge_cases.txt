@@ -5,3 +5,10 @@
 
 
 ./codexion 199 1400 100 100 100 2 600 fifo
+
+5 2000 200 200 200 10 0 fifo
+./codexion 5 3000 200 200 200 10 800 fifo
+
+
+./codexion 5 3000 200 200 200 10 400 edf -> Fatal glibc error: pthread_mutex_lock.c:88 (___pthread_mutex_lock): assertion failed: mutex->__data.__owner == 0
+./codexion 199 2110 100 100 100 10 600 edf

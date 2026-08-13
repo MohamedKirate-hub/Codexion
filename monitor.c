@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/08 12:42:22 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 12:40:08 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void start_monitor(t_sim *sim)
 {
     int         status;
 
-    // set_running(sim, 0);
     sim->monitor = (t_monitor *)malloc(sizeof(t_monitor));
     pthread_mutex_init(&sim->monitor->monitor_mutex, NULL);
     status = pthread_create(&sim->monitor->monitor, NULL, monitoring, sim);

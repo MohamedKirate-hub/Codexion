@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   min_heap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 10:30:08 by mkirate           #+#    #+#             */
-/*   Updated: 2026/07/25 10:59:08 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/08/13 12:37:55 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,38 +57,17 @@ void bubble_down(t_heap *heap, int size, char *scheduler)
         right_child = i * 2 + 2;
         small_child = left_child;
 
-        if (method == 2)
+        if (right_child < heap->count &&
+            compare_bubble_down(heap->data[left_child], heap->data[right_child], method))
+            small_child = right_child;
+        if (compare_bubble_down(heap->data[i], heap->data[small_child], method))
         {
-            if (right_child < heap->count &&
-                heap->data[left_child]->arrived_time > heap->data[right_child] ->arrived_time )
-                small_child = right_child;
-            if (heap->data[small_child]->arrived_time < heap->data[i]->arrived_time )
-                swap(heap->data + small_child, heap->data + i);
-            else
-                break;
+            swap(heap->data + small_child, heap->data + i);
+            i = small_child;
         }
         else
-        {
-            if (right_child < heap->count &&
-                heap->data[left_child]->last_compile > heap->data[right_child]->last_compile)
-                small_child = right_child;
-            if (heap->data[small_child]->last_compile < heap->data[i]->last_compile)
-                swap(heap->data + small_child, heap->data + i);
-            else
-                break;
-        }
-        i = small_child;
+            break;
     }
-}
-
-long get_compile_time(t_coder *coder)
-{
-    long compile_time;
-
-    pthread_mutex_lock(&coder->sim->compile);
-    compile_time = coder->arrived_time;
-    pthread_mutex_unlock(&coder->sim->compile);
-    return (compile_time);
 }
 
 void bubble_up(t_heap *heap, int size, char* scheduler)
@@ -102,25 +81,10 @@ void bubble_up(t_heap *heap, int size, char* scheduler)
     while (i > 0)
     {
         parent = (i - 1) / 2;
-        if (method == 2)
-        {
-            // # data race
-            if (heap->data[parent]->arrived_time > heap->data[i]->arrived_time)
-                swap(heap->data + parent, heap->data + i);
-            if (heap->data[parent]->compile_count  > heap->data[i]->compile_count)
-                swap(heap->data + parent, heap->data + i);
-            else
-                break;
-        }
+        if (compare_bubble_up(heap->data[parent], heap->data[i], method))
+            swap(heap->data + parent, heap->data + i);
         else
-        {
-            if (heap->data[parent]->last_compile  > heap->data[i]->last_compile)
-                swap(heap->data + parent, heap->data + i);
-            if (heap->data[parent]->compile_count  > heap->data[i]->compile_count)
-                swap(heap->data + parent, heap->data + i);
-            else
-                break;
-        }
+            break;
         i = parent;
     }
 }

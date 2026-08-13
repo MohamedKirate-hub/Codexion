@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:22:00 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/10 12:33:14 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 11:19:15 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ void free_things(t_sim *sim, int coder_setup)
 
     i = 0;
     if (coder_setup)
-    {
-        while (i < sim->args->number_of_coders)
-            free(sim->coders[i++].ids);
         free(sim->coders);
-    }
     pthread_mutex_destroy(&sim->print_mutex);
     pthread_mutex_destroy(&sim->sim_mutex);
     pthread_mutex_destroy(&sim->args->mutex);

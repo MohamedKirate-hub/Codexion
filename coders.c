@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:58 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/10 15:32:00 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 11:18:22 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,16 +86,6 @@ int setup_coders(t_sim *sim)
     while (i < sim->args->number_of_coders)
     {
         init_coder(sim, i);
-        if (!sim->coders[i].ids)
-        {
-            while (--i >= 0)
-                free(sim->coders[i].ids);
-            fprintf(stderr, "Error: failed to allocate memory for coder IDs.\n");
-            return (1);
-        }
-        sim->coders[i].ids[0] = i;
-        sim->coders[i].ids[1] = (i + 1) % sim->args->number_of_coders;
-        // fill_heap(&sim->coders[i]);
         if (pthread_create(&threads[i], NULL, working, &sim->coders[i]))
         {
             fprintf(stderr, "Failed to create thread %d\n", i);
