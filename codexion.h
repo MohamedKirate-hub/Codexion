@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/13 12:36:02 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 16:58:58 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,3 +165,5 @@ int	take_dongles(t_coder *coder);
 void release_dongle(t_dongle *dongle, char* scheduler, int *taked);
 int compare_bubble_down(t_coder *parent, t_coder *child, int method);
 int compare_bubble_up(t_coder *parent, t_coder *child, int method);
+void destroy_partial(t_sim *sim, int step);
+int destroy_dongles(t_sim *sim, int fail_index);

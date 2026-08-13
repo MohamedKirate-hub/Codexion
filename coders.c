@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:58 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/13 11:18:22 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/13 17:04:03 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,15 @@ void *working(void *args)
     int     s;
 
     coder = (t_coder *)args;
+
     pthread_mutex_lock(&coder->sim->sim_mutex);
     while (!coder->sim->begin)
         pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex);
     pthread_mutex_unlock(&coder->sim->sim_mutex);
+
     if (coder->id % 2 != 0)
         usleep((coder->args->time_to_compile + coder->args->dongle_cooldown) / 2 * 1000);
+
     while (get_running(coder->sim))
     {
         if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
@@ -54,7 +57,6 @@ void *working(void *args)
         if (!get_running(coder->sim))
             break;
         s = take_dongles(coder);
-
         if (s == -1)
             return (NULL);
         if (s)
@@ -79,24 +81,20 @@ void *working(void *args)
 int setup_coders(t_sim *sim)
 {
     int         i;
-    int         state;
-    pthread_t   threads[sim->args->number_of_coders];
 
     i = 0;
     while (i < sim->args->number_of_coders)
     {
         init_coder(sim, i);
-        if (pthread_create(&threads[i], NULL, working, &sim->coders[i]))
+        if (pthread_create(&sim->coders[i].thread, NULL, working, &sim->coders[i]))
         {
             fprintf(stderr, "Failed to create thread %d\n", i);
+            set_running(sim, 0);
             while (--i >= 0)
-            {
-                set_running(sim, 0);
-                pthread_join(threads[i], NULL);
-            }
+                pthread_join(sim->coders[i].thread, NULL);
+            destroy_dongles(sim, sim->args->number_of_coders);
             return (0);
         }
-        sim->coders[i].thread = threads[i];
         i++;
     }
     start_monitor(sim);
