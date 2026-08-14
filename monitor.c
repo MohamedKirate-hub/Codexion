@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 21:05:44 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 21:56:53 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,25 @@ void	*monitoring(void *args)
 
 void	start_monitor(t_sim *sim)
 {
-	int	status;
-
 	sim->monitor = (t_monitor *)malloc(sizeof(t_monitor));
-	pthread_mutex_init(&sim->monitor->monitor_mutex, NULL);
-	status = pthread_create(&sim->monitor->monitor, NULL, monitoring, sim);
-	if (status)
-		return ; // free all things we created;
+	if (pthread_mutex_init(&sim->monitor->monitor_mutex, NULL))
+	{
+		free(sim->monitor);
+		pthread_mutex_lock(&sim->sim_mutex);
+		sim->begin = 0;
+		set_running(sim, 0);
+		pthread_mutex_unlock(&sim->sim_mutex);
+		return ;
+	}
+	if (pthread_create(&sim->monitor->monitor, NULL, monitoring, sim))
+	{
+		pthread_mutex_destroy(&sim->monitor->monitor_mutex);
+		free(sim->monitor);
+		pthread_mutex_lock(&sim->sim_mutex);
+		sim->begin = 0;
+		set_running(sim, 0);
+		pthread_mutex_unlock(&sim->sim_mutex);
+		return ;
+	}
 	pthread_join(sim->monitor->monitor, NULL);
 }
