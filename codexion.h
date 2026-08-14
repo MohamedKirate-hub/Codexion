@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/13 16:58:58 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 12:00:47 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,10 @@ typedef struct s_coder{
     long        last_compile;
     int         compile_count;
     int         stop;
-    pthread_t   thread;
 
+    pthread_t   thread;
     t_dongle    *left;
     t_dongle    *right;
-    int         left_taked;
-    int         right_taked;
-
     t_sim       *sim;
     t_args      *args;
 } t_coder;
@@ -101,7 +98,7 @@ typedef struct s_monitor
 } t_monitor;
 
 int ft_atoi(char *str);
-t_args parser(char **av, int *valid);
+t_args parser(int ac, char **av, int *valid);
 
 int push(t_heap *heap, t_coder *coder, char* scheduler);
 void bubble_up(t_heap *heap, int size, char* scheduler);
@@ -114,10 +111,8 @@ t_heap *create_heap(int capacity);
 long current_time();
 int print_state(t_coder *data, char *state);
 void print_burnout(t_coder *data, char *state);
-// void fn_usleep(long time);
 int sorting_methode(char *scheduler);
 void cleaner(t_coder *coder, t_sim *sim);
-void fill_heap(t_coder *coder);
 
 // dongles
 int setup_dongles(t_sim *sim, int capacity);
@@ -151,6 +146,9 @@ typedef struct s_parser_messages
     char *cond_init_error;
     char *cond_wait_error;
     char *cond_broadcast_error;
+    char *invalid;
+    char *invalid_number;
+    char *overflow_error;
 }   t_parser_messages;
 t_parser_messages *get_parser_messages();
 int print_error(char *msg, int return_val);
@@ -162,8 +160,16 @@ void init_coder(t_sim *sim, int i);
 
 int request_dongle(t_dongle *dongle, t_coder *coder);
 int	take_dongles(t_coder *coder);
-void release_dongle(t_dongle *dongle, char* scheduler, int *taked);
+void release_dongle(t_dongle *dongle, char* scheduler);
 int compare_bubble_down(t_coder *parent, t_coder *child, int method);
 int compare_bubble_up(t_coder *parent, t_coder *child, int method);
 void destroy_partial(t_sim *sim, int step);
 int destroy_dongles(t_sim *sim, int fail_index);
+void fn_usleep(t_sim *sim, long time);
+
+
+void coder_compiling(t_coder *coder);
+void coder_debugging(t_coder* coder);
+void coder_refactoring(t_coder* coder);
+
+void *working(void *args);

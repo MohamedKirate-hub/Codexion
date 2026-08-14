@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 14:25:49 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/13 12:39:37 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 11:25:53 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ t_parser_messages *get_parser_messages()
     msg.cond_init_error = "Error: condition variable initialization failed\n";
     msg.cond_wait_error = "Error: condition variable wait failed\n";
     msg.cond_broadcast_error = "Error: condition variable broadcast failed\n";
+    msg.invalid = "ERROR: empty or invalid argument.\n";
+    msg.invalid_number = "ERROR: argument must contain digits only.\n";
+    msg.overflow_error = "ERROR: argument value is too large.\n";
     return (&msg);
 }
 

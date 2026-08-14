@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 10:30:08 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/13 12:37:55 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 08:34:31 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ t_heap *create_heap(int capacity)
     
     data = (t_coder **)malloc(sizeof(t_coder *) * capacity);
     if (!data)
-        return (free(heap), NULL);
+    {
+        free(heap);
+        return (NULL);
+    }
 
     heap->capacity = capacity;
     heap->count = 0;

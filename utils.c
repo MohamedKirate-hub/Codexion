@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/13 11:39:18 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 10:23:53 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,15 @@ int sorting_methode(char *scheduler)
     return 3;
 }
 
-void cleaner(t_coder *coder, t_sim *sim)
+void fn_usleep(t_sim *sim, long time)
 {
-    pthread_mutex_lock(&coder->left->mutex);
-    coder->left->available = 1;
-    coder->left->releast_time = current_time();
-    coder->left_taked = 0;
-    pthread_mutex_unlock(&coder->left->mutex);
+    long start_time;
 
-    pthread_mutex_lock(&coder->right->mutex);
-    coder->right->available = 1;
-    coder->right->releast_time = current_time();
-    coder->right_taked = 0;
-    pthread_mutex_unlock(&coder->right->mutex);
+    start_time = current_time();
+    while (current_time() - start_time < time)
+    {
+        if (!get_running(sim))
+            break;
+        usleep(time / 10);
+    }
 }

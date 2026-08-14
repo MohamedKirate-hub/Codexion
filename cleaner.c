@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:22:00 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/13 11:19:15 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 10:52:19 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,6 @@ void free_things(t_sim *sim, int coder_setup)
     pthread_mutex_destroy(&sim->args->mutex);
     pthread_mutex_destroy(&sim->monitor->monitor_mutex);
     free(sim->monitor);
-}
-
-void clean_coders(t_sim *sim, int fail_index)
-{
-    int i;
-
-    i = 0;
-    while (i < fail_index)
-    {
-        pthread_join(sim->coders[i].thread, NULL);
-        i++;
-    }
-    free_dongles(sim, sim->args->number_of_coders);
-    free_things(sim, 1);
 }
 
 void clean_dongles(t_sim *sim, int fail_index)

@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:27:18 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/13 16:35:10 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 12:01:00 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int setup_args_and_sim(t_args *args, t_sim *sim, int ac, char **av)
         fprintf(stderr,"%s", get_parser_messages()->invalid_argc);
         return (1);
     }
-    *args = parser(av, &valid);
+    *args = parser(ac, av, &valid);
     if (!valid)
         return (1);
     if (pthread_mutex_init(&args->mutex, NULL))
