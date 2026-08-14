@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:58 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 11:03:15 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 13:10:49 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void *working(void *args)
         return (NULL);
     while (get_running(coder->sim))
     {
-        if (coder->compile_count >= coder->sim->args->number_of_compiles_required)
-            return (NULL);
         if (!get_running(coder->sim))
             break;
         s = take_dongles(coder);

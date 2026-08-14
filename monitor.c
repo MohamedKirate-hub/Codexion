@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/13 12:40:08 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/14 13:18:43 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,16 @@ void *monitoring(void *args)
 
     sim = (t_sim *)args;
     time_to_burnout = sim->args->time_to_burnout;
-    
+    i = 0;
+    while (i < sim->args-> number_of_coders)
+    {
+        sim->coders[i].last_compile = current_time();
+        i++;
+    }
     pthread_mutex_lock(&sim->sim_mutex);
     sim->begin = 1;
     set_running(sim, 1);
+
     sim->args->start_time = current_time();
     pthread_cond_broadcast(&sim->cond);
     pthread_mutex_unlock(&sim->sim_mutex);
@@ -59,8 +65,7 @@ void *monitoring(void *args)
             compile_count = sim->coders[i].compile_count;
             pthread_mutex_unlock(&sim->compile);
 
-            if ((current_time() - sim->args->start_time) - last_compile >= time_to_burnout
-                && compile_count < sim->args->number_of_compiles_required)
+            if (current_time() - last_compile >= time_to_burnout)
             {
                 print_state(&sim->coders[i], "burned out");
                 set_running(sim, 0);
