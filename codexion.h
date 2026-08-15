@@ -10,14 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
+#ifndef CODEXION_H
+# define CODEXION_H
 
-#define INT_MAX 2147483647
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+
+# define INT_MAX 2147483647
 
 typedef struct s_heap		t_heap;
 typedef struct s_coder		t_coder;
@@ -156,3 +159,5 @@ void				coder_compiling(t_coder *coder);
 void				coder_debugging(t_coder *coder);
 void				coder_refactoring(t_coder *coder);
 void				*working(void *args);
+
+#endif
