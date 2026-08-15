@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 21:56:53 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/15 15:40:51 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	*monitoring(void *args)
 	while (get_running(sim))
 	{
 		i = 0;
-		usleep(1000);
 		while (i < sim->args->number_of_coders)
 		{
 			if (!monitor_routine(sim, &sim->coders[i]))
@@ -95,6 +94,7 @@ void	*monitoring(void *args)
 			sim->begin = 0;
 			break ;
 		}
+		usleep(500);
 	}
 	return (NULL);
 }

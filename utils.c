@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 21:14:13 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/15 16:01:46 by mkirate          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,6 @@ int	print_state(t_coder *coder, char *state)
 		printf("%ld %d %s\n", spend_time, coder->id, state);
 	pthread_mutex_unlock(&coder->sim->print_mutex);
 	return (0);
-}
-
-void	print_burnout(t_coder *coder, char *state)
-{
-	long	spend_time;
-
-	pthread_mutex_lock(&coder->sim->monitor->monitor_mutex);
-	spend_time = current_time() - coder->args->start_time;
-	printf("%ld %d %s\n", spend_time, coder->id, state);
-	pthread_mutex_unlock(&coder->sim->monitor->monitor_mutex);
 }
 
 int	sorting_methode(char *scheduler)
