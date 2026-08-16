@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:58 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 16:50:22 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 21:17:27 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	waiting(t_coder *coder)
 	long	spend_time;
 
 	pthread_mutex_lock(&coder->sim->sim_mutex);
-	while (!coder->sim->begin)
+	while (!get_running(coder->sim))
 	{
 		if (pthread_cond_wait(&coder->sim->cond, &coder->sim->sim_mutex))
 		{
@@ -38,7 +38,7 @@ int	waiting(t_coder *coder)
 int	working_cycle(t_coder *coder)
 {
 	coder_compiling(coder);
-	cleaner(coder, coder->sim);
+	cleaner(coder);
 	if (!get_running(coder->sim))
 		return (0);
 	coder_debugging(coder);

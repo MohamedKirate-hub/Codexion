@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/13 11:18:02 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 16:51:32 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 20:10:26 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ int	get_running(t_sim *sim)
 
 void	set_running(t_sim *sim, int val)
 {
-	int	state;
-
 	pthread_mutex_lock(&sim->run);
 	sim->running = val;
 	pthread_mutex_unlock(&sim->run);
 }
 
-int	get_compile_count(t_coder *coder)
+long	get_compile_count(t_coder *coder)
 {
-	int	compile_count;
+	long	compile_count;
 
 	pthread_mutex_lock(&coder->sim->compile);
 	compile_count = coder->compile_count;

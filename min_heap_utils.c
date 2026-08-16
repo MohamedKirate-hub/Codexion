@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:39:08 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 17:16:59 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 20:12:14 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	compare_bubble_up(t_coder *parent, t_coder *child, int method)
 {
 	long	parent_val;
 	long	child_val;
-	int		parent_compile;
-	int		child_compile;
+	long	parent_compile;
+	long	child_compile;
 
 	parent_compile = get_compile_count(parent);
 	child_compile = get_compile_count(child);

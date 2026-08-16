@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 22:25:22 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 21:14:48 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_coder
 	int			id;
 	long		arrived_time;
 	long		last_compile;
-	int			compile_count;
+	long		compile_count;
 	int			stop;
 
 	pthread_t	thread;
@@ -64,13 +64,13 @@ typedef struct s_heap
 
 typedef struct s_args
 {
-	int				number_of_coders;
-	int				time_to_burnout;
-	int				time_to_compile;
-	int				time_to_debug;
-	int				time_to_refactor;
-	int				number_of_compiles_required;
-	int				dongle_cooldown;
+	long			number_of_coders;
+	long			time_to_burnout;
+	long			time_to_compile;
+	long			time_to_debug;
+	long			time_to_refactor;
+	long			number_of_compiles_required;
+	long			dongle_cooldown;
 	char			*scheduler;
 	pthread_mutex_t	mutex;
 	long			start_time;
@@ -118,7 +118,7 @@ typedef struct s_parser_messages
 	char	*overflow_error;
 }	t_parser_messages;
 
-int					ft_atoi(char *str);
+long				ft_atoi(char *str);
 t_args				parser(int ac, char **av, int *valid);
 int					push(t_heap *heap, t_coder *coder, char *scheduler);
 void				bubble_up(t_heap *heap, int size, char *scheduler);
@@ -128,17 +128,19 @@ t_heap				*create_heap(int capacity);
 void				swap(t_coder **a, t_coder **b);
 long				current_time(void);
 int					print_state(t_coder *data, char *state);
-void				print_burnout(t_coder *data, char *state);
 int					sorting_methode(char *scheduler);
-void				cleaner(t_coder *coder, t_sim *sim);
+void				cleaner(t_coder *coder);
 int					setup_dongles(t_sim *sim, int capacity);
 int					setup_coders(t_sim *sim);
 void				start_monitor(t_sim *sim);
 int					get_running(t_sim *sim);
 void				set_running(t_sim *sim, int val);
+int					get_begin(t_sim *sim);
+void				set_begin(t_sim *sim, int val);
+void				set_zero(t_sim *sim);
 long				get_compile_time(t_coder *coder);
 long				get_arrived_time(t_coder *coder);
-int					get_compile_count(t_coder *coder);
+long				get_compile_count(t_coder *coder);
 void				free_dongles(t_sim *sim, int count);
 void				free_things(t_sim *sim, int coder_setup);
 t_parser_messages	*get_parser_messages(void);
@@ -147,7 +149,7 @@ int					init_sim(t_sim *sim);
 void				init_coder(t_sim *sim, int i);
 int					request_dongle(t_dongle *dongle, t_coder *coder);
 int					take_dongles(t_coder *coder);
-void				release_dongle(t_dongle *dongle, char *scheduler);
+void				release_dongle(t_dongle *dongle);
 int					compare_bubble_down(t_coder *parent, t_coder *child,
 						int method);
 int					compare_bubble_up(t_coder *parent, t_coder *child,

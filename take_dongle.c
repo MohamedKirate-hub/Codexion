@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   take_dongle.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 12:30:34 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/15 16:01:17 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/08/16 12:59:16 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	take_second(t_dongle *first, t_dongle *second,
 {
 	if (!request_dongle(second, coder))
 	{
-		release_dongle(first, coder->args->scheduler);
+		release_dongle(first);
 		return (0);
 	}
 	pthread_mutex_lock(&second->mutex);

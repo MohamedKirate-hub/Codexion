@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:19 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 21:07:13 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 13:04:06 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	string_validator(char *str)
 	return (0);
 }
 
-int	parse_numeric_args(int ac, char **av, int *value)
+int	validate_args(int ac, char **av, int *value)
 {
 	int	i;
 
-	i = 1;
-	while (i < ac)
+	i = 0;
+	while (++i < ac)
 	{
 		if (i <= 7)
 		{
@@ -43,7 +43,6 @@ int	parse_numeric_args(int ac, char **av, int *value)
 						0));
 			}
 		}
-		i++;
 	}
 	*value = 1;
 	return (1);
@@ -65,7 +64,7 @@ t_args	parser(int ac, char **av, int *valid)
 {
 	t_args	data;
 
-	if (!parse_numeric_args(ac, av, valid))
+	if (!validate_args(ac, av, valid))
 		return (data);
 	assign_args(&data, av);
 	return (data);

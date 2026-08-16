@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   monitor.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/15 15:40:51 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/08/16 13:16:42 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ int	monitor_routine(t_sim *sim, t_coder *coder)
 	long	time_to_burnout;
 	long	last_compile;
 	long	spend_time;
-	int		compile_count;
 
 	time_to_burnout = sim->args->time_to_burnout;
 	pthread_mutex_lock(&sim->compile);
 	last_compile = coder->last_compile;
-	compile_count = coder->compile_count;
 	spend_time = (current_time() - sim->args->start_time) - last_compile;
 	pthread_mutex_unlock(&sim->compile);
 	if (spend_time >= time_to_burnout)
@@ -75,8 +73,7 @@ void	*monitoring(void *args)
 	sim = (t_sim *)args;
 	if (!setup_monitor(sim))
 	{
-		sim->begin = 0;
-		set_running(sim, 0);
+		set_zero(sim);
 		return (NULL);
 	}
 	while (get_running(sim))
@@ -84,14 +81,12 @@ void	*monitoring(void *args)
 		i = 0;
 		while (i < sim->args->number_of_coders)
 		{
-			if (!monitor_routine(sim, &sim->coders[i]))
+			if (!monitor_routine(sim, &sim->coders[i++]))
 				break ;
-			i++;
 		}
 		if (reach_goal(sim))
 		{
-			set_running(sim, 0);
-			sim->begin = 0;
+			set_zero(sim);
 			break ;
 		}
 		usleep(500);

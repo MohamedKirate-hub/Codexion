@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:22:00 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 21:56:18 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 12:57:16 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ void	free_dongles(t_sim *sim, int count)
 
 void	free_things(t_sim *sim, int coder_setup)
 {
-	int	i;
-
-	i = 0;
 	if (coder_setup)
 		free(sim->coders);
 	pthread_mutex_destroy(&sim->print_mutex);
