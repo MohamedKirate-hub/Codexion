@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/16 13:16:42 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/16 21:27:59 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	reach_goal(t_sim *sim)
 int	setup_monitor(t_sim *sim)
 {
 	pthread_mutex_lock(&sim->sim_mutex);
-	sim->begin = 1;
 	set_running(sim, 1);
 	sim->args->start_time = current_time();
 	if (pthread_cond_broadcast(&sim->cond))
@@ -73,7 +72,7 @@ void	*monitoring(void *args)
 	sim = (t_sim *)args;
 	if (!setup_monitor(sim))
 	{
-		set_zero(sim);
+		set_running(sim, 0);
 		return (NULL);
 	}
 	while (get_running(sim))
@@ -86,10 +85,10 @@ void	*monitoring(void *args)
 		}
 		if (reach_goal(sim))
 		{
-			set_zero(sim);
+			set_running(sim, 0);
 			break ;
 		}
-		usleep(500);
+		usleep(1000);
 	}
 	return (NULL);
 }
@@ -101,7 +100,6 @@ void	start_monitor(t_sim *sim)
 	{
 		free(sim->monitor);
 		pthread_mutex_lock(&sim->sim_mutex);
-		sim->begin = 0;
 		set_running(sim, 0);
 		pthread_mutex_unlock(&sim->sim_mutex);
 		return ;
@@ -111,7 +109,6 @@ void	start_monitor(t_sim *sim)
 		pthread_mutex_destroy(&sim->monitor->monitor_mutex);
 		free(sim->monitor);
 		pthread_mutex_lock(&sim->sim_mutex);
-		sim->begin = 0;
 		set_running(sim, 0);
 		pthread_mutex_unlock(&sim->sim_mutex);
 		return ;
