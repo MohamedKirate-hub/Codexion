@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 10:53:10 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/17 17:10:44 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 21:06:35 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 int	thread_error(t_sim *sim, int i)
 {
-	set_running(sim, 0);
+	pthread_mutex_lock(&sim->sim_mutex);
+	sim->running = 0;
+	sim->error = 0;
+	pthread_cond_broadcast(&sim->cond);
+	pthread_mutex_unlock(&sim->sim_mutex);
 	fprintf(stderr, "Failed to create thread %d\n", i);
 	while (i > 0)
 	{

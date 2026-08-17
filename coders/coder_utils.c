@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 10:30:06 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 16:46:12 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 22:34:36 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	coder_compiling(t_coder *coder)
 	coder->last_compile = current_time() - coder->args->start_time;
 	pthread_mutex_unlock(&coder->sim->compile);
 	print_state(coder, "is compiling");
-	usleep(coder->sim->args->time_to_compile * 1000);
+	fn_usleep(coder->sim->args->time_to_compile, coder->sim);
 }
 
 void	coder_debugging(t_coder *coder)
 {
 	print_state(coder, "is debugging");
-	usleep(coder->args->time_to_debug * 1000);
+	fn_usleep(coder->args->time_to_debug, coder->sim);
 }
 
 void	coder_refactoring(t_coder *coder)
 {
 	print_state(coder, "is refactoring");
-	usleep(coder->args->time_to_refactor * 1000);
+	fn_usleep(coder->args->time_to_refactor, coder->sim);
 }

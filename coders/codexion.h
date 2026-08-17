@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 16:55:59 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 22:34:05 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ typedef struct s_sim
 	pthread_mutex_t	compile;
 	pthread_cond_t	cond;
 	int				running;
+	int				error;
 }	t_sim;
 
 typedef struct s_monitor
@@ -151,7 +152,7 @@ int					compare_bubble_up(t_coder *parent, t_coder *child,
 						int method);
 void				destroy_partial(t_sim *sim, int step);
 int					destroy_dongles(t_sim *sim, int fail_index);
-void				fn_usleep(t_sim *sim, long time);
+void				fn_usleep(long time, t_sim *sim);
 void				coder_compiling(t_coder *coder);
 void				coder_debugging(t_coder *coder);
 void				coder_refactoring(t_coder *coder);

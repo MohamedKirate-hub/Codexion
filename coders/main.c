@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:27:18 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/17 16:57:31 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 21:05:56 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	alloc_sim(t_sim *sim, t_args *args)
 		return (print_error(get_parser_messages()->dongle_alloc_error, 1));
 	}
 	set_running(sim, 0);
+	sim->error = 1;
 	return (0);
 }
 

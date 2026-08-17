@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mkirate <mkirate@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/17 09:15:25 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/15 16:01:46 by mkirate          ###   ########.fr       */
+/*   Updated: 2026/08/17 22:33:35 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	sorting_methode(char *scheduler)
 	return (3);
 }
 
-void	fn_usleep(t_sim *sim, long time)
+void	fn_usleep(long time, t_sim *sim)
 {
 	long	start_time;
 
@@ -51,7 +51,7 @@ void	fn_usleep(t_sim *sim, long time)
 	while (current_time() - start_time < time)
 	{
 		if (!get_running(sim))
-			break ;
-		usleep(time / 10);
+			return ;
+		usleep(500);
 	}
 }
