@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:27:18 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/16 21:26:58 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:20:10 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,18 @@ int	alloc_sim(t_sim *sim, t_args *args)
 	sim->coders = malloc(sizeof(t_coder) * args->number_of_coders);
 	if (!sim->coders)
 	{
-		destroy_partial(sim, 5);
+		destroy_partial(sim, 6);
 		return (print_error(get_parser_messages()->coder_alloc_error, 1));
 	}
 	sim->dongles = malloc(sizeof(t_dongle) * args->number_of_coders);
 	if (!sim->dongles)
 	{
 		free(sim->coders);
-		destroy_partial(sim, 5);
+		destroy_partial(sim, 6);
 		return (print_error(get_parser_messages()->dongle_alloc_error, 1));
 	}
 	set_running(sim, 0);
+	set_sleeping(sim, 1);
 	return (0);
 }
 

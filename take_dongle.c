@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/12 12:30:34 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/16 12:59:16 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:23:22 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	setup_order(t_coder *coder, t_dongle **first, t_dongle **second)
 int	single_dongle(t_coder *coder, t_dongle *dongle)
 {
 	if (push(dongle->heap, coder, coder->args->scheduler))
-		return (1);
+		return (-1);
 	while (get_running(coder->sim))
 		usleep(1000);
 	return (0);
@@ -73,9 +73,9 @@ int	take_dongles(t_coder *coder)
 	if (first == second)
 		return (single_dongle(coder, first));
 	if (push(first->heap, coder, coder->args->scheduler))
-		return (0);
+		return (-1);
 	if (push(second->heap, coder, coder->args->scheduler))
-		return (0);
+		return (-1);
 	while (get_running(coder->sim))
 	{
 		take_first(first, coder);

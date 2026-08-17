@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 21:10:16 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 15:58:12 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,19 @@ int	destroy_dongles(t_sim *sim, int fail_index)
 	i = 0;
 	while (i < fail_index)
 	{
-		free(sim->dongles[i].heap);
 		pthread_mutex_destroy(&sim->dongles[i].mutex);
 		pthread_cond_destroy(&sim->dongles[i].cond);
+		if (sim->dongles[i].heap)
+		{
+			pthread_mutex_destroy(&sim->dongles[i].heap->heap_mutex);
+			free(sim->dongles[i].heap->data);
+			free(sim->dongles[i].heap);
+		}	
 		i++;
 	}
 	free(sim->dongles);
-	destroy_partial(sim, 5);
+	free(sim->coders);
+	destroy_partial(sim, 6);
 	return (1);
 }
 
@@ -48,17 +54,27 @@ int	setup_dongles(t_sim *sim, int capacity)
 		heap = create_heap(capacity);
 		sim->dongles[i].heap = heap;
 		if (!heap)
-			return (destroy_dongles(sim, i));
+		{
+			fprintf(stderr, "allocation of dongle heap failed.\n");
+			destroy_dongles(sim, i);
+			return (1);
+		}
 		if (pthread_mutex_init(&sim->dongles[i].mutex, NULL))
 		{
+			free(heap->data);
 			free(heap);
-			return (destroy_dongles(sim, i));
+			fprintf(stderr, "Failed to init dongle mutex\n");
+			destroy_dongles(sim, i);
+			return (1);
 		}
 		if (pthread_cond_init(&sim->dongles[i].cond, NULL))
 		{
+			free(heap->data);
 			free(heap);
 			pthread_mutex_destroy(&sim->dongles[i].mutex);
-			return (destroy_dongles(sim, i));
+			fprintf(stderr, "Failed to init dongle condition variable\n");
+			destroy_dongles(sim, i);
+			return (1);
 		}
 		i++;
 	}

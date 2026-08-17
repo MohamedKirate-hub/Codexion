@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/16 21:27:59 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:25:46 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,13 @@ int	reach_goal(t_sim *sim)
 	return (1);
 }
 
-int	setup_monitor(t_sim *sim)
+void	setup_monitor(t_sim *sim)
 {
 	pthread_mutex_lock(&sim->sim_mutex);
 	set_running(sim, 1);
 	sim->args->start_time = current_time();
-	if (pthread_cond_broadcast(&sim->cond))
-	{
-		pthread_mutex_unlock(&sim->sim_mutex);
-		return (0);
-	}
+	pthread_cond_broadcast(&sim->cond);
 	pthread_mutex_unlock(&sim->sim_mutex);
-	return (1);
 }
 
 int	monitor_routine(t_sim *sim, t_coder *coder)
@@ -57,8 +52,8 @@ int	monitor_routine(t_sim *sim, t_coder *coder)
 	pthread_mutex_unlock(&sim->compile);
 	if (spend_time >= time_to_burnout)
 	{
-		print_state(coder, "burned out");
 		set_running(sim, 0);
+		print_state(coder, "burned out");
 		return (0);
 	}
 	return (1);
@@ -70,11 +65,7 @@ void	*monitoring(void *args)
 	int		i;
 
 	sim = (t_sim *)args;
-	if (!setup_monitor(sim))
-	{
-		set_running(sim, 0);
-		return (NULL);
-	}
+	setup_monitor(sim);
 	while (get_running(sim))
 	{
 		i = 0;
@@ -83,6 +74,8 @@ void	*monitoring(void *args)
 			if (!monitor_routine(sim, &sim->coders[i++]))
 				break ;
 		}
+		if (!get_running(sim))
+			break ;
 		if (reach_goal(sim))
 		{
 			set_running(sim, 0);
@@ -93,25 +86,22 @@ void	*monitoring(void *args)
 	return (NULL);
 }
 
-void	start_monitor(t_sim *sim)
+int	start_monitor(t_sim *sim)
 {
 	sim->monitor = (t_monitor *)malloc(sizeof(t_monitor));
-	if (pthread_mutex_init(&sim->monitor->monitor_mutex, NULL))
+	if (!sim->monitor)
 	{
-		free(sim->monitor);
-		pthread_mutex_lock(&sim->sim_mutex);
 		set_running(sim, 0);
-		pthread_mutex_unlock(&sim->sim_mutex);
-		return ;
+		set_sleeping(sim, 0);
+		return (0);
 	}
 	if (pthread_create(&sim->monitor->monitor, NULL, monitoring, sim))
 	{
-		pthread_mutex_destroy(&sim->monitor->monitor_mutex);
 		free(sim->monitor);
-		pthread_mutex_lock(&sim->sim_mutex);
 		set_running(sim, 0);
-		pthread_mutex_unlock(&sim->sim_mutex);
-		return ;
+		set_sleeping(sim, 0);
+		return (0);
 	}
 	pthread_join(sim->monitor->monitor, NULL);
+	return (1);
 }

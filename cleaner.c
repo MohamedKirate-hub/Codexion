@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:22:00 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/16 12:57:16 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 14:38:55 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	free_dongles(t_sim *sim, int count)
 	i = 0;
 	while (i < count)
 	{
-		free(sim->dongles[i].heap->data);
-		pthread_mutex_destroy(&sim->dongles[i].mutex);
 		pthread_mutex_destroy(&sim->dongles[i].heap->heap_mutex);
+		pthread_mutex_destroy(&sim->dongles[i].mutex);
+		free(sim->dongles[i].heap->data);
 		free(sim->dongles[i].heap);
 		i++;
 	}
@@ -35,7 +35,7 @@ void	free_things(t_sim *sim, int coder_setup)
 	pthread_mutex_destroy(&sim->print_mutex);
 	pthread_mutex_destroy(&sim->sim_mutex);
 	pthread_mutex_destroy(&sim->args->mutex);
-	pthread_mutex_destroy(&sim->monitor->monitor_mutex);
+	// pthread_mutex_destroy(&sim->monitor->monitor_mutex);
 	free(sim->monitor);
 }
 

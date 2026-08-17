@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/15 10:30:08 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/14 18:05:17 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 14:28:33 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,15 @@ t_heap	*create_heap(int capacity)
 		free(heap);
 		return (NULL);
 	}
+	if (pthread_mutex_init(&heap->heap_mutex, NULL))
+	{
+		free(heap);
+		free(data);
+		return (NULL);
+	}
 	heap->capacity = capacity;
 	heap->count = 0;
 	heap->data = data;
-	pthread_mutex_init(&heap->heap_mutex, NULL);
 	return (heap);
 }
 
