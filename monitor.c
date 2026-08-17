@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 16:55:03 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 18:20:26 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	reach_goal(t_sim *sim)
 		pthread_mutex_lock(&sim->compile);
 		compile_count = sim->coders[i].compile_count;
 		pthread_mutex_unlock(&sim->compile);
-		if (compile_count < sim->args->number_of_compiles_required)
+		if (compile_count <= sim->args->number_of_compiles_required)
 			return (0);
 		i++;
 	}
