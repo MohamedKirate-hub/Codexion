@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:50 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/17 15:57:44 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:57:06 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	destroy_partial(t_sim *sim, int step)
 		pthread_mutex_destroy(&sim->run);
 	if (step >= 5)
 		pthread_mutex_destroy(&sim->compile);
-	if (step >= 6)
-		pthread_mutex_destroy(&sim->sleep);
 }
 
 int	init_compile_mutex(t_sim *sim)
@@ -36,11 +34,6 @@ int	init_compile_mutex(t_sim *sim)
 	{
 		destroy_partial(sim, 4);
 		return (print_error(get_parser_messages()->mutex_init_error, 0));
-	}
-	if (pthread_mutex_init(&sim->sleep, NULL))
-	{
-		destroy_partial(sim, 5);
-		return (print_error(get_parser_messages()->mutex_init_error, 0));	
 	}
 	return (1);
 }

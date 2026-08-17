@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 15:58:12 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 17:00:20 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ int	destroy_dongles(t_sim *sim, int fail_index)
 			pthread_mutex_destroy(&sim->dongles[i].heap->heap_mutex);
 			free(sim->dongles[i].heap->data);
 			free(sim->dongles[i].heap);
-		}	
+		}
 		i++;
 	}
 	free(sim->dongles);
 	free(sim->coders);
-	destroy_partial(sim, 6);
+	destroy_partial(sim, 5);
 	return (1);
 }
 

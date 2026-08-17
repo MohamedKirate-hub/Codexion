@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/14 10:53:10 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/17 16:33:45 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:54:18 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ int	setup_coders(t_sim *sim)
 		if (pthread_create(&sim->coders[i].thread, NULL,
 				working, &sim->coders[i]))
 		{
-			fprintf(stderr, "Failed to create thread %d\n", i);
 			set_running(sim, 0);
-			set_sleeping(sim, 0);
+			fprintf(stderr, "Failed to create thread %d\n", i);
 			while (i > 0)
 			{
 				i--;

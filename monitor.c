@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 16:25:46 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:55:03 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,12 @@ int	start_monitor(t_sim *sim)
 	if (!sim->monitor)
 	{
 		set_running(sim, 0);
-		set_sleeping(sim, 0);
 		return (0);
 	}
 	if (pthread_create(&sim->monitor->monitor, NULL, monitoring, sim))
 	{
 		free(sim->monitor);
 		set_running(sim, 0);
-		set_sleeping(sim, 0);
 		return (0);
 	}
 	pthread_join(sim->monitor->monitor, NULL);

@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 16:00:06 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/17 16:55:59 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,7 @@ typedef struct s_sim
 	pthread_mutex_t	run;
 	pthread_mutex_t	compile;
 	pthread_cond_t	cond;
-	pthread_mutex_t	sleep;
 	int				running;
-	int				sleeping;
 }	t_sim;
 
 typedef struct s_monitor
@@ -135,10 +133,6 @@ int					setup_coders(t_sim *sim);
 int					start_monitor(t_sim *sim);
 int					get_running(t_sim *sim);
 void				set_running(t_sim *sim, int val);
-
-int	get_sleeping(t_sim *sim);
-void	set_sleeping(t_sim *sim, int val);
-
 long				get_compile_time(t_coder *coder);
 long				get_arrived_time(t_coder *coder);
 long				get_compile_count(t_coder *coder);
