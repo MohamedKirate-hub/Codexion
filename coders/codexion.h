@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/05 11:11:15 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 22:34:05 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/18 10:33:09 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ typedef struct s_monitor
 {
 	t_coder			*coder;
 	pthread_t		monitor;
-	// pthread_mutex_t	monitor_mutex;
 	t_sim			*sim;
 	long			time_to_burnout;
 }	t_monitor;

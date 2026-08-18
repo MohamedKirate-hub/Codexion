@@ -1,6 +1,6 @@
 # Codexion
 
-*This project has been created as part of the 42 curriculum by momahdam.*
+*This project has been created as part of the 42 curriculum by mkirate*
 
 ## Description
 
@@ -292,23 +292,59 @@ Mutexes and condition variables must also be properly destroyed after all thread
 
 ---
 
-## Project Structure
+# Project Structure
+
+The project is organized into several files, with each file having a specific responsibility.
 
 ```text
-codexion/
+.
+├── coders/
+│   ├── cleaner.c
+│   ├── coders.c
+│   ├── coder_utils.c
+│   ├── codexion.h
+│   ├── data_race.c
+│   ├── dongle_utils.c
+│   ├── error.c
+│   ├── ft_atoi.c
+│   ├── init.c
+│   ├── main.c
+│   ├── min_heap.c
+│   ├── min_heap_utils.c
+│   ├── monitor.c
+│   ├── parser.c
+│   ├── request_dongles.c
+│   ├── setup_coders.c
+│   ├── setup_dongles.c
+│   ├── take_dongle.c
+│   └── utils.c
 ├── Makefile
-├── README.md
-├── includes/
-│   └── codexion.h
-└── src/
-    ├── main.c
-    ├── parser.c
-    ├── coders.c
-    ├── monitor.c
-    ├── dongles.c
-    ├── scheduler.c
-    └── ...
+└── README.md
 ```
+
+## Source Files
+
+| File                | Responsibility                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `main.c`            | Entry point of the program. Starts the initialization and simulation.                       |
+| `codexion.h`        | Main header file containing shared structures, types, constants, and function declarations. |
+| `parser.c`          | Parses and validates the program arguments.                                                 |
+| `ft_atoi.c`         | Converts numeric strings into integers.                                                     |
+| `init.c`            | Initializes the main simulation data and shared information.                                |
+| `setup_coders.c`    | Creates and initializes the coder structures and their relationships.                       |
+| `setup_dongles.c`   | Creates and initializes the dongles and their synchronization objects.                      |
+| `coders.c`          | Contains the main routine executed by each coder thread.                                    |
+| `coder_utils.c`     | Helper functions used by the coder routine.                                                 |
+| `request_dongles.c` | Handles coder requests for the required dongles and interacts with the scheduling system.   |
+| `take_dongle.c`     | Contains the logic used to acquire and release dongles safely.                              |
+| `dongle_utils.c`    | Helper functions related to dongle management.                                              |
+| `min_heap.c`        | Implements the min-heap used by the scheduling system.                                      |
+| `min_heap_utils.c`  | Helper functions for managing the min-heap.                                                 |
+| `monitor.c`         | Contains the monitor thread responsible for checking coder deadlines and detecting burnout. |
+| `data_race.c`       | Contains synchronization logic used to protect shared data and prevent data races.          |
+| `cleaner.c`         | Frees allocated memory and destroys mutexes and other synchronization resources.            |
+| `error.c`           | Handles error messages and error reporting.                                                 |
+| `utils.c`           | General utility functions used throughout the project.                                      |
 
 ---
 
@@ -333,17 +369,30 @@ The main lesson is that creating threads is only the beginning. The real challen
 
 ---
 
+## Resources
+
+* [Thread Control Block (TCB)](https://www.geeksforgeeks.org/operating-systems/thread-control-block-in-operating-system/)
+  Helped me understand how threads are represented and managed by the operating system.
+
+* [Process States](https://www.youtube.com/watch?v=jZ_6PXoaoxo)
+  Helped me understand the different states of a process and how it moves between them.
+
+* **The Linux Programming Interface** — Michael Kerrisk
+  Helped me understand Linux system programming and how to use POSIX threads in C.
+
+* [Min-Heap](https://www.youtube.com/watch?v=HqPJF2L5h9U&t=1750s)
+  Helped me understand the min-heap data structure and how it can be implemented and used for priority-based scheduling.
+
+
+
 ## AI Usage
 
-AI was used as a learning and debugging assistant to:
+AI was used as a learning and review tool during the project.
 
-* Understand threads and synchronization.
-* Analyze race conditions and deadlocks.
-* Learn scheduling algorithms.
-* Find debugging techniques.
-* Review parts of the implementation.
+It helped me:
 
-The generated information was reviewed, tested, and adapted. The goal was to understand the concepts rather than blindly copy code.
+* Understand some concurrency and synchronization concepts.
+* Create and improve the `README.md` file.
 
 ---
 

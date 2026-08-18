@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/18 12:05:32 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 17:17:01 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/18 11:05:10 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int	init_dongle_stuff(t_dongle *dongle)
 {
 	if (pthread_mutex_init(&dongle->mutex, NULL))
 	{
-		fprintf(stderr, "Failed to init dongle mutex\n");
+		fprintf(stderr, "Error: failed to initialize dongle mutex\n");
 		return (0);
 	}
 	if (pthread_cond_init(&dongle->cond, NULL))
 	{
 		pthread_mutex_destroy(&dongle->mutex);
-		fprintf(stderr, "Failed to init dongle condition variable\n");
+		fprintf(stderr, "Error: dongle cond init failed\n");
 		return (0);
 	}
 	return (1);
@@ -71,7 +71,7 @@ int	setup_dongles(t_sim *sim, int capacity)
 		sim->dongles[i].heap = heap;
 		if (!heap)
 		{
-			fprintf(stderr, "allocation of dongle heap failed.\n");
+			fprintf(stderr, "Error: failed to allocate dongle heap\n");
 			destroy_dongles(sim, i);
 			return (1);
 		}

@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/17 18:20:26 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/18 11:20:36 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int	start_monitor(t_sim *sim)
 	}
 	if (pthread_create(&sim->monitor->monitor, NULL, monitoring, sim))
 	{
+		fprintf(stderr, "Error: failed to create monitor thread\n");
 		free(sim->monitor);
 		set_running(sim, 0);
 		return (0);

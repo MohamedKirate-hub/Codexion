@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 13:26:58 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/17 22:36:14 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/18 11:24:39 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	waiting(t_coder *coder)
 	pthread_mutex_unlock(&coder->sim->sim_mutex);
 	spend_time = coder->args->time_to_compile + coder->args->dongle_cooldown;
 	if (coder->id % 2 != 0)
-		fn_usleep(spend_time / 2 * 1000, coder->sim);
+		fn_usleep(spend_time / 2, coder->sim);
 	return (1);
 }
 

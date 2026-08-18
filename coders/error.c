@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/10 14:25:49 by mkirat            #+#    #+#             */
-/*   Updated: 2026/08/14 16:56:19 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/18 11:09:25 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_parser_messages	*get_parser_messages(void)
 	msg.dongle_alloc_error = "Error: allocation failed for dongles\n";
 	msg.coder_alloc_error = "Error: allocation failed for coders\n";
 	msg.heap_push_error = "Error: failed to push to heap\n";
-	msg.invalid_schedule = "Error: invalid scheduling type\n";
+	msg.invalid_schedule = "Error: scheduler must be 'edf' or 'fifo'\n";
 	msg.mutex_init_error = "Error: mutex initialization failed\n";
 	msg.cond_init_error = "Error: condition variable initialization failed\n";
 	msg.cond_wait_error = "Error: condition variable wait failed\n";
