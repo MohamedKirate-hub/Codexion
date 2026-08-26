@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codexion Visualizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+
+        <header>
+            <div>
+                <h1>CODEXION <span>VISUALIZER</span></h1>
+                <p>Concurrency • Scheduling • Resource Management</p>
+            </div>
+
+            <div class="simulation-status">
+                <span id="status-dot"></span>
+                <span id="simulation-status">READY</span>
+            </div>
+        </header>
+
+        <main>
+
+            <!-- LEFT PANEL -->
+            <aside class="sidebar">
+
+                <section class="panel">
+                    <h2>Simulation Input</h2>
+
+                    <textarea id="log-input" spellcheck="false">0 2 has taken a dongle
+1 2 has taken a dongle
+1 2 is compiling
+201 2 is debugging
+401 2 is refactoring
+601 3 has taken a dongle
+601 3 has taken a dongle
+601 3 is compiling
+801 3 is debugging
+1001 3 is refactoring
+1201 1 has taken a dongle
+1201 1 has taken a dongle
+1201 1 is compiling
+1401 1 is debugging
+1601 1 is refactoring
+1801 2 has taken a dongle
+1801 2 has taken a dongle
+1801 2 is compiling
+2001 2 is debugging
+2201 2 is refactoring
+2401 3 has taken a dongle
+2401 3 has taken a dongle
+2401 3 is compiling
+2601 3 is debugging
+2801 3 is refactoring
+3001 1 has taken a dongle
+3002 1 has taken a dongle
+3002 1 is compiling
+3202 1 is debugging
+3402 1 is refactoring
+3602 2 has taken a dongle
+3602 2 has taken a dongle
+3602 2 is compiling
+3802 2 is debugging
+4002 2 is refactoring
+4202 3 has taken a dongle
+4202 3 has taken a dongle
+4202 3 is compiling
+4402 3 is debugging
+4602 3 is refactoring
+4802 1 has taken a dongle
+4803 1 has taken a dongle
+4803 1 is compiling</textarea>
+
+                    <button id="load-button" class="primary-button">
+                        Load Simulation
+                    </button>
+                </section>
+
+                <section class="panel">
+                    <h2>Controls</h2>
+
+                    <div class="controls">
+                        <button id="play-button">▶ Play</button>
+                        <button id="restart-button">↺ Restart</button>
+                    </div>
+
+                    <div class="speed-control">
+                        <label for="speed">Speed: <span id="speed-value">1x</span></label>
+
+                        <input
+                            type="range"
+                            id="speed"
+                            min="0.25"
+                            max="10"
+                            value="1"
+                            step="0.25"
+                        >
+                    </div>
+                </section>
+
+                <section class="panel stats-panel">
+                    <h2>Simulation Stats</h2>
+
+                    <div class="stat">
+                        <span>Current Time</span>
+                        <strong id="current-time">0 ms</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Coders</span>
+                        <strong id="coder-count">0</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Events</span>
+                        <strong id="event-count">0</strong>
+                    </div>
+
+                    <div class="stat">
+                        <span>Compilations</span>
+                        <strong id="compile-count">0</strong>
+                    </div>
+                </section>
+
+            </aside>
+
+            <!-- CENTER -->
+            <section class="visualization">
+
+                <div class="table-wrapper">
+
+                    <div id="simulation-area">
+
+                        <div id="connections"></div>
+                        <div id="dongles-container"></div>
+                        <div id="coders-container"></div>
+
+                        <div class="compiler">
+                            <div class="compiler-icon">💻</div>
+                            <strong>QUANTUM</strong>
+                            <span>COMPILER</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- TIMELINE -->
+                <section class="timeline-panel">
+
+                    <div class="timeline-header">
+                        <h2>Timeline</h2>
+                        <span id="timeline-time">0 / 0 ms</span>
+                    </div>
+
+                    <input
+                        type="range"
+                        id="timeline"
+                        min="0"
+                        max="100"
+                        value="0"
+                    >
+
+                    <div id="current-event">
+                        Waiting for simulation...
+                    </div>
+
+                </section>
+
+            </section>
+
+            <!-- RIGHT PANEL -->
+            <aside class="right-sidebar">
+
+                <section class="panel">
+                    <h2>Coder States</h2>
+                    <div id="coder-list"></div>
+                </section>
+
+                <section class="panel">
+                    <h2>Event Log</h2>
+                    <div id="event-log"></div>
+                </section>
+
+            </aside>
+
+        </main>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

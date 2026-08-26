@@ -6,7 +6,7 @@
 /*   By: mkirat <mkirat@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/07/25 11:21:22 by mkirate           #+#    #+#             */
-/*   Updated: 2026/08/18 11:20:36 by mkirat           ###   ########.fr       */
+/*   Updated: 2026/08/26 17:53:03 by mkirat           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,11 @@ int	monitor_routine(t_sim *sim, t_coder *coder)
 	pthread_mutex_unlock(&sim->compile);
 	if (spend_time >= time_to_burnout)
 	{
-		set_running(sim, 0);
+		pthread_mutex_lock(&sim->sim_mutex);
+		sim->running = 0;
+		sim->error = 0;
+		pthread_cond_broadcast(&sim->cond);
+		pthread_mutex_unlock(&sim->sim_mutex);
 		print_state(coder, "burned out");
 		return (0);
 	}
@@ -98,7 +102,11 @@ int	start_monitor(t_sim *sim)
 	{
 		fprintf(stderr, "Error: failed to create monitor thread\n");
 		free(sim->monitor);
-		set_running(sim, 0);
+		pthread_mutex_lock(&sim->sim_mutex);
+		sim->running = 0;
+		sim->error = 0;
+		pthread_cond_broadcast(&sim->cond);
+		pthread_mutex_unlock(&sim->sim_mutex);
 		return (0);
 	}
 	pthread_join(sim->monitor->monitor, NULL);
